@@ -1,4 +1,4 @@
-# Locasms [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms)
+# Locasms [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Dependency Status](https://gemnasium.com/mcorp/locasms.png)](https://gemnasium.com/mcorp/locasms)
 
 TODO: Write a gem description
 
