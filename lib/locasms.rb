@@ -1,6 +1,7 @@
 require "locasms/version"
 
 module LocaSMS
-  class Sender
-  end
+
+  autoload :RestClient, 'locasms/rest_client'
+
 end
