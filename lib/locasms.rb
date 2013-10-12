@@ -1,8 +1,8 @@
 require "locasms/version"
 
-autoload :JSON, 'json'
+autoload :JSON,       'json'
 autoload :RestClient, 'rest_client'
-autoload :Logger, 'logger'
+autoload :Logger,     'logger'
 
 module LocaSMS
 
