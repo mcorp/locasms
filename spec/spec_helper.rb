@@ -3,10 +3,10 @@ require 'rubygems'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-require 'coveralls'
-require 'simplecov'
+# require 'coveralls'
+# require 'simplecov'
 
-SimpleCov.start
+# SimpleCov.start
 
 require 'locasms'
 require 'rspec'
