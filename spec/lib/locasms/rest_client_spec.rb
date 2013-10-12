@@ -10,4 +10,15 @@ describe LocaSMS::RestClient do
     end
   end
 
+  describe '#get' do
+    it 'Is missing tests for get'
+  end
+
+  describe '#params_for' do
+    subject { LocaSMS::RestClient.new :url, { b1: 'X' } }
+
+    it{ subject.params_for(:action).should == {action: :action, b1: 'X'} }
+    it{ subject.params_for(:action, p1: 10).should == {action: :action, b1: 'X', p1: 10} }
+  end
+
 end
