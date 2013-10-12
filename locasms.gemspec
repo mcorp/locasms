@@ -36,4 +36,6 @@ Gem::Specification.new do |spec|
 
   # for code coverage
   spec.add_development_dependency 'simplecov'
+
+  spec.add_dependency 'rest-client', '~> 1.6'
 end
