@@ -18,6 +18,55 @@ module LocaSMS
       @rest = opts[:rest_client]
     end
 
+    # Sends a message to one or more mobiles
+    # @param [String] message message to be sent
+    # @param [String,Array<String>] mobiles number of the mobiles to address the message
+    # @return [String] campaign id on success
+    def deliver(message, *mobiles)
+      rest.get :sendsms, msg: message, numbers: mobiles.join(',')
+    end
+
+    # Schedule the send of a message to one or more mobiles
+    # @param [String] message message to be sent
+    # @param [Time,DateTime,Fixnum,String] datetime
+    # @param [String,Array<String>] mobiles number of the mobiles to address the message
+    # @return UNDEF
+    def deliver_at(message, datetime, *mobiles)
+      datetime = Time.at(datetime)    if datetime.is_a? Fixnum
+      datetime = Time.parse(datetime) if datetime.is_a? String
+      datetime = datetime.to_time     if datetime.respond_to? :to_time
+
+      date, time = datetime.strftime('%d/%m/%Y|%H:%M').split('|')
+      rest.get :sendsms, numbers: mobiles.join(','), jobdate: date, jobtime: time
+    end
+
+    # Get de current amount of sending credits
+    # @return [Fixnum] returns the balance on success
+    def balance
+      rest.get :getbalance
+    end
+
+    # Gets the current status of the given campaign
+    # @param [String] id campaign id
+    # @return UNDEF
+    def campaign_status(id)
+      rest.get :getstatus, id: id
+    end
+
+    # Holds the given campaign to fire
+    # @param [String] id campaign id
+    # @return [TrueClass,FalseClass] returns true on success
+    def campaign_hold(id)
+      rest.get :holdsms, id: id
+    end
+
+    # Restart firing the given campaign
+    # @param [String] id campaign id
+    # @return [TrueClass,FalseClass] returns true on success
+    def campaign_release(id)
+      rest.get :releasesms, id: id
+    end
+
   private
 
     # Gets the current RestClient to handle http requests
