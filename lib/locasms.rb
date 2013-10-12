@@ -1,6 +1,6 @@
 require "locasms/version"
 
-module Locasms
+module LocaSMS
   class Sender
   end
 end

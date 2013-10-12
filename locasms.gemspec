@@ -5,7 +5,7 @@ require 'locasms/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "locasms"
-  spec.version       = Locasms::VERSION
+  spec.version       = LocaSMS::VERSION
   spec.authors       = ["Adilson Carvalho"]
   spec.email         = ["lc.adilson@gmail.com"]
   spec.description   = %q{Cliente para o serviço de disparo de SMS da LocaSMS}
