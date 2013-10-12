@@ -9,4 +9,9 @@ RSpec::Core::RakeTask.new do |spec|
   spec.pattern = 'spec/**/*_spec.rb'
 end
 
-task :default => :spec
+desc 'Open an irb session preloaded with this library'
+task :console do
+  sh 'bundle exec irb -rubygems -I lib -r locasms.rb'
+end
+
+task :default => :console
