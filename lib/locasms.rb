@@ -1,5 +1,6 @@
 require "locasms/version"
 
 module Locasms
-  # Your code goes here...
+  class Sender
+  end
 end
