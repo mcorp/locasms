@@ -34,10 +34,10 @@ cli.deliver 'my message', '1199998888', '5500002222'
 cli.deliver 'my message', ['1199998888', '5500002222']
 cli.deliver 'my message', %w(1199998888 5500002222)
 
-# scheluling the deliver of a message to one mobile
+# scheduling the deliver of a message to one mobile
 cli.deliver_at 'my message', '2013-10-12 20:33:00', '1155559999'
 
-# scheluling the deliver of a message to multiple mobiles at once
+# scheduling the deliver of a message to multiple mobiles at once
 cli.deliver_at 'my message', '2013-10-12 20:33:00', '1199998888,5500002222'
 cli.deliver_at 'my message', '2013-10-12 20:33:00', '1199998888', '5500002222'
 cli.deliver_at 'my message', '2013-10-12 20:33:00', ['1199998888', '5500002222']
