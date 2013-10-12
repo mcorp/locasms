@@ -1,0 +1,7 @@
+--title LocaSMS Documentation
+--private
+--protected
+
+lib/**/*.rb
+README.md
+LICENSE.txt
