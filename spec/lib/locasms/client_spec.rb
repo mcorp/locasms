@@ -22,7 +22,20 @@ describe LocaSMS::Client do
     it{ subject.deliver 'given message', ['1188882222', '5577770000'] }
   end
 
-  it '#deliver_at'
+  describe '#deliver_at' do
+    it '' do
+      LocaSMS::Helpers::DateTimeHelper.should_receive(:split)
+        .once
+        .with(:datetime)
+        .and_return(%w[date time])
+
+      rest_client.should_receive(:get)
+        .once
+        .with(:sendsms, msg: 'given message', numbers: '1188882222', jobdate: 'date', jobtime: 'time')
+
+      subject.deliver_at 'given message', :datetime, '1188882222'
+    end
+  end
 
   describe '#balance' do
     it 'Should check param assignment' do

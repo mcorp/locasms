@@ -32,12 +32,8 @@ module LocaSMS
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return UNDEF
     def deliver_at(message, datetime, *mobiles)
-      datetime = Time.at(datetime)    if datetime.is_a? Fixnum
-      datetime = Time.parse(datetime) if datetime.is_a? String
-      datetime = datetime.to_time     if datetime.respond_to? :to_time
-
-      date, time = datetime.strftime('%d/%m/%Y|%H:%M').split('|')
-      rest.get :sendsms, numbers: mobiles.join(','), jobdate: date, jobtime: time
+      date, time = Helpers::DateTimeHelper.split datetime
+      rest.get :sendsms, msg: message, numbers: mobiles.join(','), jobdate: date, jobtime: time
     end
 
     # Get de current amount of sending credits
