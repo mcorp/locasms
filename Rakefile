@@ -14,4 +14,4 @@ task :console do
   sh 'bundle exec irb -rubygems -I lib -r locasms.rb'
 end
 
-task :default => :console
+task :default => (ENV['TRAVIS'] ? :spec : :console)
