@@ -1,6 +1,18 @@
 module LocaSMS
 
+  # Class that sanitizes and validates a list of mobile's numbers
   class Numbers
+    attr_reader :good, :bad
+
+    # Creates a new instance of the class, separating good and bad numbers
+    # @param [Array<String>] numbers given mobile numbers
+    # @see #normalize
+    # @see #evaluate
+    def initialize(*numbers)
+      evaluated   = evaluate(numbers)
+      @good, @bad = evaluated[:good], evaluated[:bad]
+    end
+
     # Clears all non digits from a mobile's number and converts into a normalized array
     # @param [Array<String>] numbers list of mobile numbers to be clean
     # @return [Array<String>] a normalized list of mobile numbers
