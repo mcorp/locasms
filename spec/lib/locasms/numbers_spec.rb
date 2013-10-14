@@ -27,16 +27,16 @@ describe LocaSMS::Numbers do
     it{ subject.normalize(nil).should == [] }
   end
 
-  describe '#number_valid?' do
-    it{ subject.number_valid?('+55 (11) 8888-9999').should be_false }
-    it{ subject.number_valid?('88889999').should be_false }
-    it{ subject.number_valid?('988889999').should be_false }
-    it{ subject.number_valid?('ABC').should be_false }
-    it{ subject.number_valid?('').should be_false }
-    it{ subject.number_valid?(nil).should be_false }
+  describe '#valid_number?' do
+    it{ subject.valid_number?('+55 (11) 8888-9999').should be_false }
+    it{ subject.valid_number?('88889999').should be_false }
+    it{ subject.valid_number?('988889999').should be_false }
+    it{ subject.valid_number?('ABC').should be_false }
+    it{ subject.valid_number?('').should be_false }
+    it{ subject.valid_number?(nil).should be_false }
 
-    it{ subject.number_valid?('1188889999').should be_true }
-    it{ subject.number_valid?('11988889999').should be_true }
+    it{ subject.valid_number?('1188889999').should be_true }
+    it{ subject.valid_number?('11988889999').should be_true }
   end
 
   describe '#evaluate' do
@@ -45,11 +45,11 @@ describe LocaSMS::Numbers do
         .once
         .with([:numbers])
         .and_return([:good, :bad])
-      subject.should_receive(:number_valid?)
+      subject.should_receive(:valid_number?)
         .once
         .with(:good)
         .and_return(true)
-      subject.should_receive(:number_valid?)
+      subject.should_receive(:valid_number?)
         .once
         .with(:bad)
         .and_return(false)

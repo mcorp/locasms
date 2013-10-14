@@ -15,7 +15,7 @@ module LocaSMS
 
     # Checks if there are bad numbers
     # @return [TrueClass, FalseClass] true if there are bad numbers
-    # @see #number_valid?
+    # @see #valid_number?
     def bad?
       not bad.empty?
     end
@@ -43,7 +43,7 @@ module LocaSMS
     # Validates if a mobile's number has only digits
     # @param [String] number given number to be validated
     # @return [TrueClass, FalseClass] true if the number is valid
-    def number_valid?(number)
+    def valid_number?(number)
       return false if number.nil? or number =~ /[^0-9a-zA-Z]/
       [10, 11].include? number.size
     end
@@ -64,7 +64,7 @@ module LocaSMS
     #     #=> {good: ['4199998888','11777770000'], bad: ['5551212']}
     def evaluate(*numbers)
       normalize(numbers).reduce({good: [], bad: []}) do |hash, number|
-        bucket = number_valid?(number) ? :good : :bad
+        bucket = valid_number?(number) ? :good : :bad
         hash[bucket] << number
         hash
       end
