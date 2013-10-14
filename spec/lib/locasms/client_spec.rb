@@ -10,20 +10,38 @@ describe LocaSMS::Client do
   end
 
   describe '#deliver' do
-    before(:each) do
+    it 'Should send SMS' do
+      subject.should_receive(:numbers)
+        .once
+        .with([:a, :b, :c])
+        .and_return('XXX')
+
       rest_client.should_receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'1188882222,5577770000')
+        .with(:sendsms, msg: 'given message', numbers:'XXX')
+
+      subject.deliver 'given message', :a, :b, :c
     end
 
-    it{ subject.deliver 'given message', '1188882222,5577770000'      }
-    it{ subject.deliver 'given message', %w(1188882222 5577770000)    }
-    it{ subject.deliver 'given message', '1188882222', '5577770000'   }
-    it{ subject.deliver 'given message', ['1188882222', '5577770000'] }
+    it 'Should not send SMS' do
+      subject.should_receive(:numbers)
+        .once
+        .with([:a, :b, :c])
+        .and_raise(LocaSMS::Exception)
+
+      rest_client.should_receive(:get).never
+
+      lambda{ subject.deliver('given message', :a, :b, :c) }.should raise_error(LocaSMS::Exception)
+    end
   end
 
   describe '#deliver_at' do
-    it '' do
+    it 'Should send SMS' do
+      subject.should_receive(:numbers)
+        .once
+        .with([:a, :b, :c])
+        .and_return('XXX')
+
       LocaSMS::Helpers::DateTimeHelper.should_receive(:split)
         .once
         .with(:datetime)
@@ -31,9 +49,25 @@ describe LocaSMS::Client do
 
       rest_client.should_receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers: '1188882222', jobdate: 'date', jobtime: 'time')
+        .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time')
 
-      subject.deliver_at 'given message', :datetime, '1188882222'
+      subject.deliver_at 'given message', :datetime, :a, :b, :c
+    end
+
+    it 'Should not send SMS' do
+      subject.should_receive(:numbers)
+        .once
+        .with([:a, :b, :c])
+        .and_raise(LocaSMS::Exception)
+
+      LocaSMS::Helpers::DateTimeHelper.should_receive(:split)
+        .once
+        .with(:datetime)
+        .and_return(%w[date time])
+
+      rest_client.should_receive(:get).never
+
+      lambda{ subject.deliver_at('given message', :datetime, :a, :b, :c) }.should raise_error(LocaSMS::Exception)
     end
   end
 

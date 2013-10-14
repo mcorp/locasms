@@ -22,9 +22,9 @@ module LocaSMS
     # @param [String] message message to be sent
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return [String] campaign id on success
+    # @raise [LocaSMS::Exception] if bad numbers were given
     def deliver(message, *mobiles)
-      numbers = Numbers.new mobiles
-      rest.get :sendsms, msg: message, numbers: numbers.to_s
+      rest.get :sendsms, msg: message, numbers: numbers(mobiles)
     end
 
     # Schedule the send of a message to one or more mobiles
@@ -32,10 +32,10 @@ module LocaSMS
     # @param [Time,DateTime,Fixnum,String] datetime
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return UNDEF
+    # @raise [LocaSMS::Exception] if bad numbers were given
     def deliver_at(message, datetime, *mobiles)
-      numbers = Numbers.new mobiles
       date, time = Helpers::DateTimeHelper.split datetime
-      rest.get :sendsms, msg: message, numbers: numbers.to_s, jobdate: date, jobtime: time
+      rest.get :sendsms, msg: message, numbers: numbers(mobiles), jobdate: date, jobtime: time
     end
 
     # Get de current amount of sending credits
