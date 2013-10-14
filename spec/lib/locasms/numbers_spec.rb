@@ -25,4 +25,22 @@ describe LocaSMS::Numbers do
     it{ subject.number_valid?('11988889999').should be_true }
   end
 
+  describe '#evaluate' do
+    it 'Should separate numbers in good and bad' do
+      subject.should_receive(:normalize)
+        .once
+        .with([:numbers])
+        .and_return([:good, :bad])
+      subject.should_receive(:number_valid?)
+        .once
+        .with(:good)
+        .and_return(true)
+      subject.should_receive(:number_valid?)
+        .once
+        .with(:bad)
+        .and_return(false)
+      subject.evaluate(:numbers).should == { good: [:good], bad: [:bad] }
+    end
+  end
+
 end
