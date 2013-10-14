@@ -7,6 +7,7 @@ autoload :Logger,     'logger'
 module LocaSMS
   autoload :Client,     'locasms/client'
   autoload :Exception,  'locasms/exception'
+  autoload :Numbers,    'locasms/numbers'
   autoload :RestClient, 'locasms/rest_client'
 
   module Helpers
