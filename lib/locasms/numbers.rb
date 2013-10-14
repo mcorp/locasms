@@ -20,6 +20,14 @@ module LocaSMS
         .map{|number| number.gsub(/[^0-9a-zA-Z]/, '') }
         .delete_if{|number| number.empty? }
     end
+
+    # Validates if a mobile's number has only digits
+    # @param [String] number given number to be validated
+    # @return [TrueClass, FalseClass] true if the number is valid
+    def number_valid?(number)
+      return false if number.nil? or number =~ /[^0-9a-zA-Z]/
+      [10, 11].include? number.size
+    end
   end
 
 end

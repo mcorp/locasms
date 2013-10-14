@@ -13,4 +13,16 @@ describe LocaSMS::Numbers do
     it{ subject.normalize(nil).should == [] }
   end
 
+  describe '#number_valid?' do
+    it{ subject.number_valid?('+55 (11) 8888-9999').should be_false }
+    it{ subject.number_valid?('88889999').should be_false }
+    it{ subject.number_valid?('988889999').should be_false }
+    it{ subject.number_valid?('ABC').should be_false }
+    it{ subject.number_valid?('').should be_false }
+    it{ subject.number_valid?(nil).should be_false }
+
+    it{ subject.number_valid?('1188889999').should be_true }
+    it{ subject.number_valid?('11988889999').should be_true }
+  end
+
 end
