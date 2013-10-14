@@ -57,4 +57,9 @@ describe LocaSMS::Numbers do
     end
   end
 
+  describe '#bad?' do
+    it{ subject.should_receive(:bad).once.and_return([ ]); subject.bad?.should be_false }
+    it{ subject.should_receive(:bad).once.and_return([1]); subject.bad?.should be_true  }
+  end
+
 end

@@ -13,6 +13,13 @@ module LocaSMS
       @good, @bad = evaluated[:good], evaluated[:bad]
     end
 
+    # Checks if there are bad numbers
+    # @return [TrueClass, FalseClass] true if there are bad numbers
+    # @see #number_valid?
+    def bad?
+      not bad.empty?
+    end
+
     # Clears all non digits from a mobile's number and converts into a normalized array
     # @param [Array<String>] numbers list of mobile numbers to be clean
     # @return [Array<String>] a normalized list of mobile numbers
