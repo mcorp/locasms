@@ -62,4 +62,17 @@ describe LocaSMS::Numbers do
     it{ subject.should_receive(:bad).once.and_return([1]); subject.bad?.should be_true  }
   end
 
+  describe '#to_s' do
+    it 'Should return and empty string' do
+      subject.to_s.should == ''
+    end
+
+    it 'Should return all good numbers in a string comma separated' do
+      subject.should_receive(:good)
+        .once
+        .and_return([1,2,3,4])
+      subject.to_s.should == '1,2,3,4'
+    end
+  end
+
 end

@@ -69,6 +69,12 @@ module LocaSMS
         hash
       end
     end
+
+    # Return all good numbers in a string comma joined
+    # @return [String] all good numbers in a string comma joined
+    def to_s
+      (good || []).join(',')
+    end
   end
 
 end
