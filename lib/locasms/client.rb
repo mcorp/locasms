@@ -23,7 +23,8 @@ module LocaSMS
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return [String] campaign id on success
     def deliver(message, *mobiles)
-      rest.get :sendsms, msg: message, numbers: mobiles.join(',')
+      numbers = Numbers.new mobiles
+      rest.get :sendsms, msg: message, numbers: numbers.to_s
     end
 
     # Schedule the send of a message to one or more mobiles
@@ -32,8 +33,9 @@ module LocaSMS
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return UNDEF
     def deliver_at(message, datetime, *mobiles)
+      numbers = Numbers.new mobiles
       date, time = Helpers::DateTimeHelper.split datetime
-      rest.get :sendsms, msg: message, numbers: mobiles.join(','), jobdate: date, jobtime: time
+      rest.get :sendsms, msg: message, numbers: numbers.to_s, jobdate: date, jobtime: time
     end
 
     # Get de current amount of sending credits
@@ -71,6 +73,19 @@ module LocaSMS
     def rest
       @rest ||= RestClient.new ENDPOINT, lgn: login, pwd: password
     end
+
+    # Processes and returns all good numbers in a string
+    # @param [Array<String>]
+    # @return [String]
+    # @raise [LocaSMS::Exception] if bad numbers were given
+    # @private
+    def numbers(*mobiles)
+      numbers = Numbers.new mobiles
+      return numbers.to_s unless numbers.bad?
+
+      raise Exception("Bad numbers were given: #{numbers.bad.join(',')}")
+    end
+
   end
 
 end
