@@ -12,6 +12,5 @@ module LocaSMS
 
   module Helpers
     autoload :DateTimeHelper, 'locasms/helpers/date_time_helper'
-    autoload :NumbersHelper,  'locasms/helpers/numbers_helper'
   end
 end
