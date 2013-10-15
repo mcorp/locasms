@@ -67,9 +67,12 @@ module LocaSMS
     def parse_response(response)
       raise InvalidOperation.new if response =~ /^0:OPERACAO INVALIDA$/i
 
-      response = JSON.parse(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
-      raise InvalidLogin.new if response['status'] == 0 && response['msg'] =~ /falha|login/i
-      response
+      j = JSON.parse(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
+
+      return j if j['status'] == 1
+
+      raise InvalidLogin.new if j['msg'] =~ /^falha ao realizar login$/i
+      raise Exception.new message: j['msg'], raw: response
     end
   end
 

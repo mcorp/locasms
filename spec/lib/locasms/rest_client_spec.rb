@@ -27,6 +27,10 @@ describe LocaSMS::RestClient do
       lambda{ subject.parse_response('0:OPERACAO INVALIDA') }.should raise_error(LocaSMS::InvalidOperation)
     end
 
+    it 'Should raise exception on a failed response' do
+      lambda{ subject.parse_response('{"status":0,"data":null,"msg":"FALHA EPICA"}') }.should raise_error(LocaSMS::Exception, 'FALHA EPICA')
+    end
+
     it 'Should raise exception on a failed login attempt' do
       lambda{ subject.parse_response('{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.should raise_error(LocaSMS::InvalidLogin)
     end
