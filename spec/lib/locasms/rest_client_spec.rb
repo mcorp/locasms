@@ -24,23 +24,23 @@ describe LocaSMS::RestClient do
     subject { LocaSMS::RestClient.new :url, :params }
 
     it 'Should raise exception on invalid operation' do
-      lambda{ subject.parse_response('0:OPERACAO INVALIDA') }.should raise_error(LocaSMS::InvalidOperation)
+      lambda{ subject.parse_response(:action, '0:OPERACAO INVALIDA') }.should raise_error(LocaSMS::InvalidOperation)
     end
 
     it 'Should raise exception on a failed response' do
-      lambda{ subject.parse_response('{"status":0,"data":null,"msg":"FALHA EPICA"}') }.should raise_error(LocaSMS::Exception, 'FALHA EPICA')
+      lambda{ subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA EPICA"}') }.should raise_error(LocaSMS::Exception, 'FALHA EPICA')
     end
 
     it 'Should raise exception on a failed login attempt' do
-      lambda{ subject.parse_response('{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.should raise_error(LocaSMS::InvalidLogin)
+      lambda{ subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.should raise_error(LocaSMS::InvalidLogin)
     end
 
     it 'Should return the non-json value as a json' do
-      subject.parse_response('non-json return').should == {'status' => 1, 'data' => 'non-json return', "msg" => nil}
+      subject.parse_response(:action, 'non-json return').should == {'status' => 1, 'data' => 'non-json return', "msg" => nil}
     end
 
     it 'Should return a parsed json return' do
-      subject.parse_response('{"status":1,"data":28,"msg":null}').should == {'status' => 1, 'data' => 28, "msg" => nil}
+      subject.parse_response(:action, '{"status":1,"data":28,"msg":null}').should == {'status' => 1, 'data' => 28, "msg" => nil}
     end
   end
 

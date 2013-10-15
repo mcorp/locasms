@@ -40,7 +40,7 @@ module LocaSMS
     def get(action, params={})
       params   = params_for action, params
       response = ::RestClient.get base_url, params: params
-      parse_response(response)
+      parse_response(action, response)
     end
 
     # Composes the parameters hash
@@ -60,19 +60,20 @@ module LocaSMS
     end
 
     # Parses a result trying to get it in json
+    # @param [String, Symbol] action the given action to perform
     # @param [String] response body
     # @return [Hash] json parsed response
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
-    def parse_response(response)
-      raise InvalidOperation.new if response =~ /^0:OPERACAO INVALIDA$/i
+    def parse_response(action, response)
+      raise InvalidOperation.new(action: action) if response =~ /^0:OPERACAO INVALIDA$/i
 
       j = JSON.parse(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
 
-      return j if j['status'] == 1
+      return j if j['status'] == 1 or action == :getstatus
 
-      raise InvalidLogin.new if j['msg'] =~ /^falha ao realizar login$/i
-      raise Exception.new message: j['msg'], raw: response
+      raise InvalidLogin.new(action: action) if j['msg'] =~ /^falha ao realizar login$/i
+      raise Exception.new(message: j['msg'], raw: response, action: action)
     end
   end
 
