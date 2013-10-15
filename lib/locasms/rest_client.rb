@@ -1,3 +1,5 @@
+require 'json'
+
 module LocaSMS
 
   # Class that handle http calls to LocaSMS api
@@ -16,25 +18,29 @@ module LocaSMS
     # Performs a GET call for an action
     # @param [String, Symbol] action the given action to perform
     # @param [Hash] params given parameters to send
-    # @return [String]
+    # @return [Hash] json parsed response
     #
     # @example Calling with no extra parameters
     #
     #     client = LocaSMS::RestClient('http://localhost:3000', lgn: 'LOGIN', pwd: 'PASSWORD')
     #     # => GET http://localhost:3000?lgn=LOGIN&pws=PASSWORD&action=getballance
     #     client.get :getballance
+    #     # => {"status"=>1,"data"=>341,"msg"=>nil}
     #
     # @example Calling with extra parameters
     #
     #     client = LocaSMS::RestClient('http://localhost:3000', lgn: 'LOGIN', pwd: 'PASSWORD')
     #     # => GET http://localhost:3000?lgn=LOGIN&pws=PASSWORD&action=holdsms&id=345678
     #     client.get :holdsms, id: 345678
+    #     # => {"status"=>1,"data"=>nil,"msg"=>"SUCESSO"}
     #
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
+    # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
+    # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
     def get(action, params={})
       params   = params_for action, params
       response = ::RestClient.get base_url, params: params
-      JSON.parse(response) rescue response
+      parse_response(response)
     end
 
     # Composes the parameters hash
@@ -51,6 +57,19 @@ module LocaSMS
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
     def params_for(action, params={})
       {action: action}.merge(base_params).merge(params)
+    end
+
+    # Parses a result trying to get it in json
+    # @param [String] response body
+    # @return [Hash] json parsed response
+    # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
+    # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
+    def parse_response(response)
+      raise InvalidOperation.new if response =~ /^0:OPERACAO INVALIDA$/i
+
+      response = JSON.parse(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
+      raise InvalidLogin.new if response['status'] == 0 && response['msg'] =~ /falha|login/i
+      response
     end
   end
 
