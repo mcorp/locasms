@@ -24,7 +24,7 @@ module LocaSMS
     # @return [String] campaign id on success
     # @raise [LocaSMS::Exception] if bad numbers were given
     def deliver(message, *mobiles)
-      rest.get :sendsms, msg: message, numbers: numbers(mobiles)
+      rest.get(:sendsms, msg: message, numbers: numbers(mobiles))['data']
     end
 
     # Schedule the send of a message to one or more mobiles
@@ -35,34 +35,34 @@ module LocaSMS
     # @raise [LocaSMS::Exception] if bad numbers were given
     def deliver_at(message, datetime, *mobiles)
       date, time = Helpers::DateTimeHelper.split datetime
-      rest.get :sendsms, msg: message, numbers: numbers(mobiles), jobdate: date, jobtime: time
+      rest.get(:sendsms, msg: message, numbers: numbers(mobiles), jobdate: date, jobtime: time)['data']
     end
 
     # Get de current amount of sending credits
     # @return [Fixnum] returns the balance on success
     def balance
-      rest.get :getbalance
+      rest.get(:getbalance)['data']
     end
 
     # Gets the current status of the given campaign
     # @param [String] id campaign id
     # @return UNDEF
     def campaign_status(id)
-      rest.get :getstatus, id: id
+      rest.get(:getstatus, id: id)['data']
     end
 
     # Holds the given campaign to fire
     # @param [String] id campaign id
     # @return [TrueClass,FalseClass] returns true on success
     def campaign_hold(id)
-      rest.get :holdsms, id: id
+      rest.get(:holdsms, id: id)['data']
     end
 
     # Restart firing the given campaign
     # @param [String] id campaign id
     # @return [TrueClass,FalseClass] returns true on success
     def campaign_release(id)
-      rest.get :releasesms, id: id
+      rest.get(:releasesms, id: id)['data']
     end
 
   private

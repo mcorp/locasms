@@ -19,6 +19,7 @@ describe LocaSMS::Client do
       rest_client.should_receive(:get)
         .once
         .with(:sendsms, msg: 'given message', numbers:'XXX')
+        .and_return({})
 
       subject.deliver 'given message', :a, :b, :c
     end
@@ -50,6 +51,7 @@ describe LocaSMS::Client do
       rest_client.should_receive(:get)
         .once
         .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time')
+        .and_return({})
 
       subject.deliver_at 'given message', :datetime, :a, :b, :c
     end
@@ -76,6 +78,7 @@ describe LocaSMS::Client do
       rest_client.should_receive(:get)
         .once
         .with(:getbalance)
+        .and_return({})
 
       subject.balance
     end
@@ -92,6 +95,7 @@ describe LocaSMS::Client do
       rest_client.should_receive(:get)
         .once
         .with(rest_method, id: '12345')
+        .and_return({})
 
       subject.send method, '12345'
     end
