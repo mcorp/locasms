@@ -23,7 +23,7 @@ Simple example:
 ```ruby
 require 'locasms'
 
-cli = LocaSMS::Client.new login: 'LOGIN', password: 'PASSWORD'
+cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD'
 
 # delivering message to one mobile
 cli.deliver 'my message', '1155559999'
