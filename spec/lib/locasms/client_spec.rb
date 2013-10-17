@@ -103,6 +103,8 @@ describe LocaSMS::Client do
     it{ check_for :campaign_status  }
     it{ check_for :campaign_hold    }
     it{ check_for :campaign_release }
+
+    it 'Should have tests to cover campaign_status csv result'
   end
 
 end
