@@ -1,5 +1,6 @@
 require 'locasms/version'
 
+autoload :CSV,        'csv'
 autoload :JSON,       'json'
 autoload :RestClient, 'rest_client'
 autoload :Logger,     'logger'

@@ -46,9 +46,35 @@ module LocaSMS
 
     # Gets the current status of the given campaign
     # @param [String] id campaign id
-    # @return UNDEF
+    # @return [Array<Hash>] {campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time, delivery_time: delivery_time, status: status, carrier: carrier, mobile_number: mobile_number, message: message }
     def campaign_status(id)
-      rest.get(:getstatus, id: id)['data']
+      response = rest.get(:getstatus, id: id)
+      begin
+        CSV.new(response['data'] || '', col_sep: ';', quote_char: '"').map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
+          status = if status =~ /aguardando envio/i
+            :waiting
+          elsif status =~ /sucesso/i
+            :success
+          elsif status =~ /numero invalido|nao cadastrado/i
+            :invalid
+          else
+            :unknown
+          end
+
+          {
+            campaign_id: id,
+            delivery_id: delivery_id,
+            enqueue_time: enqueue_time,
+            delivery_time: delivery_time,
+            status: status,
+            carrier: carrier,
+            mobile_number: mobile_number,
+            message: message
+          }
+        end
+      rescue
+        raise Exception.new 'Invalid delivery response data'
+      end
     end
 
     # Holds the given campaign to fire
