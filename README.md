@@ -1,4 +1,4 @@
-# locasms [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Dependency Status](https://gemnasium.com/mcorp/locasms.png)](https://gemnasium.com/mcorp/locasms)
+# locasms [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Dependency Status](https://gemnasium.com/mcorp/locasms.png)](https://gemnasium.com/mcorp/locasms) [![Code Climate](https://codeclimate.com/github/mcorp/locasms.png)](https://codeclimate.com/github/mcorp/locasms)
 
 Client to consume [LocaSMS api's][0].
 
