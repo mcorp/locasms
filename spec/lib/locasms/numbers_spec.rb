@@ -5,73 +5,73 @@ describe LocaSMS::Numbers do
 
   describe '.initialize' do
     subject do
-      LocaSMS::Numbers.any_instance
-        .should_receive(:evaluate)
+      expect_any_instance_of(LocaSMS::Numbers)
+        .to receive(:evaluate)
         .once
         .with([:numbers])
         .and_return({ good: [1,3], bad: [2,4] })
       LocaSMS::Numbers.new :numbers
     end
 
-    it{ subject.good.should == [1,3] }
-    it{ subject.bad.should == [2,4]  }
+    it{ expect(subject.good).to eq([1,3]) }
+    it{ expect(subject.bad).to eq([2,4])  }
   end
 
   describe '#normalize' do
-    it{ subject.normalize('+55 (11) 8888-9999').should == %w(551188889999) }
-    it{ subject.normalize('55', ['11', '22']).should == %w(55 11 22) }
-    it{ subject.normalize(['55', 'ZZ', '22']).should == %w(55 ZZ 22) }
-    it{ subject.normalize('55,44,33', ['ZZ', '22,11']).should == %w(55 44 33 ZZ 22 11) }
-    it{ subject.normalize(55, [11, 22]).should == %w(55 11 22) }
-    it{ subject.normalize('Z').should == ['Z'] }
-    it{ subject.normalize(nil).should == [] }
+    it{ expect(subject.normalize('+55 (11) 8888-9999')).to eq(%w(551188889999)) }
+    it{ expect(subject.normalize('55', ['11', '22'])).to eq(%w(55 11 22)) }
+    it{ expect(subject.normalize(['55', 'ZZ', '22'])).to eq(%w(55 ZZ 22)) }
+    it{ expect(subject.normalize('55,44,33', ['ZZ', '22,11'])).to eq(%w(55 44 33 ZZ 22 11)) }
+    it{ expect(subject.normalize(55, [11, 22])).to eq(%w(55 11 22)) }
+    it{ expect(subject.normalize('Z')).to eq(['Z']) }
+    it{ expect(subject.normalize(nil)).to eq([]) }
   end
 
   describe '#valid_number?' do
-    it{ subject.valid_number?('+55 (11) 8888-9999').should be_false }
-    it{ subject.valid_number?('88889999').should be_false }
-    it{ subject.valid_number?('988889999').should be_false }
-    it{ subject.valid_number?('ABC').should be_false }
-    it{ subject.valid_number?('').should be_false }
-    it{ subject.valid_number?(nil).should be_false }
+    it{ expect(subject.valid_number?('+55 (11) 8888-9999')).to be_falsey }
+    it{ expect(subject.valid_number?('88889999')).to be_falsey }
+    it{ expect(subject.valid_number?('988889999')).to be_falsey }
+    it{ expect(subject.valid_number?('ABC')).to be_falsey }
+    it{ expect(subject.valid_number?('')).to be_falsey }
+    it{ expect(subject.valid_number?(nil)).to be_falsey }
 
-    it{ subject.valid_number?('1188889999').should be_true }
-    it{ subject.valid_number?('11988889999').should be_true }
+    it{ expect(subject.valid_number?('1188889999')).to be_truthy }
+    it{ expect(subject.valid_number?('11988889999')).to be_truthy }
   end
 
   describe '#evaluate' do
     it 'Should separate numbers in good and bad' do
-      subject.should_receive(:normalize)
+      expect(subject).to receive(:normalize)
         .once
         .with([:numbers])
         .and_return([:good, :bad])
-      subject.should_receive(:valid_number?)
+      expect(subject).to receive(:valid_number?)
         .once
         .with(:good)
         .and_return(true)
-      subject.should_receive(:valid_number?)
+      expect(subject).to receive(:valid_number?)
         .once
         .with(:bad)
         .and_return(false)
-      subject.evaluate(:numbers).should == { good: [:good], bad: [:bad] }
+      expect(subject.evaluate(:numbers)).to eq({ good: [:good], bad: [:bad] })
     end
   end
 
   describe '#bad?' do
-    it{ subject.should_receive(:bad).once.and_return([ ]); subject.bad?.should be_false }
-    it{ subject.should_receive(:bad).once.and_return([1]); subject.bad?.should be_true  }
+    it{ expect(subject).to receive(:bad).once.and_return([ ]); expect(subject.bad?).to be_falsey }
+    it{ expect(subject).to receive(:bad).once.and_return([1]); expect(subject.bad?).to be_truthy  }
   end
 
   describe '#to_s' do
     it 'Should return and empty string' do
-      subject.to_s.should == ''
+      expect(subject.to_s).to eq('')
     end
 
     it 'Should return all good numbers in a string comma separated' do
-      subject.should_receive(:good)
+      expect(subject).to receive(:good)
         .once
         .and_return([1,2,3,4])
-      subject.to_s.should == '1,2,3,4'
+      expect(subject.to_s).to eq('1,2,3,4')
     end
   end
 
