@@ -16,23 +16,23 @@ describe LocaSMS::RestClient do
   describe '#params_for' do
     subject { LocaSMS::RestClient.new :url, { b1: 'X' } }
 
-    it{ expect(subject.params_for(:action)).to eq({action: :action, b1: 'X'}) }
-    it{ expect(subject.params_for(:action, p1: 10)).to eq({action: :action, b1: 'X', p1: 10}) }
+    it { expect(subject.params_for(:action)).to eq({action: :action, b1: 'X'}) }
+    it { expect(subject.params_for(:action, p1: 10)).to eq({action: :action, b1: 'X', p1: 10}) }
   end
 
   describe '#parse_response' do
     subject { LocaSMS::RestClient.new :url, :params }
 
     it 'Should raise exception on invalid operation' do
-      expect{ subject.parse_response(:action, '0:OPERACAO INVALIDA') }.to raise_error(LocaSMS::InvalidOperation)
+      expect { subject.parse_response(:action, '0:OPERACAO INVALIDA') }.to raise_error(LocaSMS::InvalidOperation)
     end
 
     it 'Should raise exception on a failed response' do
-      expect{ subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA EPICA"}') }.to raise_error(LocaSMS::Exception, 'FALHA EPICA')
+      expect { subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA EPICA"}') }.to raise_error(LocaSMS::Exception, 'FALHA EPICA')
     end
 
     it 'Should raise exception on a failed login attempt' do
-      expect{ subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.to raise_error(LocaSMS::InvalidLogin)
+      expect { subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.to raise_error(LocaSMS::InvalidLogin)
     end
 
     it 'Should return the non-json value as a json' do

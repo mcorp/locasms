@@ -32,7 +32,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get).never
 
-      expect{ subject.deliver('given message', :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+      expect { subject.deliver('given message', :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
   end
 
@@ -69,7 +69,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get).never
 
-      expect{ subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+      expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
   end
 
