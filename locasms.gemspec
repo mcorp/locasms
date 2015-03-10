@@ -6,8 +6,8 @@ require 'locasms/version'
 Gem::Specification.new do |spec|
   spec.name          = "locasms"
   spec.version       = LocaSMS::VERSION
-  spec.authors       = ["Adilson Carvalho"]
-  spec.email         = ["lc.adilson@gmail.com"]
+  spec.authors       = ["Adilson Carvalho", "Leonardo Saraiva", "Marco Carvalho"]
+  spec.email         = ["lc.adilson@gmail.com", "vyper@maneh.org", "marco.carvalho.swasthya@gmail.com"]
   spec.description   = %q{Cliente para o serviço de disparo de SMS da LocaSMS}
   spec.summary       = %q{Cliente para o serviço de disparo de SMS da LocaSMS}
   spec.homepage      = "https://github.com/mcorp/locasms"
@@ -19,11 +19,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency 'bundler', '~> 1.3'
-  spec.add_development_dependency 'rake', '~> 0.9.2'
+  spec.add_development_dependency 'rake', '~> 10.4.2'
 
   # test stuff
-  spec.add_development_dependency 'rspec', '~> 2.5'
-  spec.add_development_dependency 'fuubar', '~> 1.1.0'
+  spec.add_development_dependency 'rspec', '~> 3.2'
+  spec.add_development_dependency 'fuubar', '~> 2.0.0'
 
   # run tests automatically
   spec.add_development_dependency 'guard'

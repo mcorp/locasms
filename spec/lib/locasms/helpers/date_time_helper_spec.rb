@@ -5,7 +5,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
 
   describe '#parse' do
     it 'Should call the class method' do
-      subject.should_receive(:parse)
+      expect(subject).to receive(:parse)
         .once
         .with(:value)
 
@@ -15,7 +15,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
 
   describe '#split' do
     it 'Should call the class method' do
-      subject.should_receive(:split)
+      expect(subject).to receive(:split)
         .once
         .with(:value)
 
@@ -38,12 +38,12 @@ describe LocaSMS::Helpers::DateTimeHelper do
 
   describe '.split' do
     it 'Should break a date into date and time' do
-      subject.should_receive(:parse)
+      expect(subject).to receive(:parse)
         .once
         .with(:datetime)
         .and_return(Time.parse('1977-03-14 14:12:00'))
 
-      subject.split(:datetime).should == %w(14/03/1977 14:12)
+      expect(subject.split(:datetime)).to eq(%w(14/03/1977 14:12))
     end
   end
 

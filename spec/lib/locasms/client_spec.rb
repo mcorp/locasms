@@ -5,18 +5,18 @@ describe LocaSMS::Client do
   subject { LocaSMS::Client.new :login, :password, rest_client: rest_client }
 
   describe '.initialize' do
-    it { subject.login.should be(:login) }
-    it { subject.password.should be(:password) }
+    it { expect(subject.login).to be(:login) }
+    it { expect(subject.password).to be(:password) }
   end
 
   describe '#deliver' do
     it 'Should send SMS' do
-      subject.should_receive(:numbers)
+      expect(subject).to receive(:numbers)
         .once
         .with([:a, :b, :c])
         .and_return('XXX')
 
-      rest_client.should_receive(:get)
+      expect(rest_client).to receive(:get)
         .once
         .with(:sendsms, msg: 'given message', numbers:'XXX')
         .and_return({})
@@ -25,30 +25,30 @@ describe LocaSMS::Client do
     end
 
     it 'Should not send SMS' do
-      subject.should_receive(:numbers)
+      expect(subject).to receive(:numbers)
         .once
         .with([:a, :b, :c])
         .and_raise(LocaSMS::Exception)
 
-      rest_client.should_receive(:get).never
+      expect(rest_client).to receive(:get).never
 
-      lambda{ subject.deliver('given message', :a, :b, :c) }.should raise_error(LocaSMS::Exception)
+      expect { subject.deliver('given message', :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
   end
 
   describe '#deliver_at' do
     it 'Should send SMS' do
-      subject.should_receive(:numbers)
+      expect(subject).to receive(:numbers)
         .once
         .with([:a, :b, :c])
         .and_return('XXX')
 
-      LocaSMS::Helpers::DateTimeHelper.should_receive(:split)
+      expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
         .once
         .with(:datetime)
         .and_return(%w[date time])
 
-      rest_client.should_receive(:get)
+      expect(rest_client).to receive(:get)
         .once
         .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time')
         .and_return({})
@@ -57,25 +57,25 @@ describe LocaSMS::Client do
     end
 
     it 'Should not send SMS' do
-      subject.should_receive(:numbers)
+      expect(subject).to receive(:numbers)
         .once
         .with([:a, :b, :c])
         .and_raise(LocaSMS::Exception)
 
-      LocaSMS::Helpers::DateTimeHelper.should_receive(:split)
+      expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
         .once
         .with(:datetime)
         .and_return(%w[date time])
 
-      rest_client.should_receive(:get).never
+      expect(rest_client).to receive(:get).never
 
-      lambda{ subject.deliver_at('given message', :datetime, :a, :b, :c) }.should raise_error(LocaSMS::Exception)
+      expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
   end
 
   describe '#balance' do
     it 'Should check param assignment' do
-      rest_client.should_receive(:get)
+      expect(rest_client).to receive(:get)
         .once
         .with(:getbalance)
         .and_return({})
@@ -92,7 +92,7 @@ describe LocaSMS::Client do
         campaign_release: :releasesms
       }[method]
 
-      rest_client.should_receive(:get)
+      expect(rest_client).to receive(:get)
         .once
         .with(rest_method, id: '12345')
         .and_return({})
