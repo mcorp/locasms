@@ -19,9 +19,9 @@ describe LocaSMS::Numbers do
 
   describe '#normalize' do
     it do 
-        expect(subject.normalize('+55 (11) 8888-9999')).to(
-          eq(%w(551188889999))
-        )
+      expect(subject.normalize('+55 (11) 8888-9999')).to(
+        eq(%w(551188889999))
+      )
     end
     it do
       expect(subject.normalize('55', ['11', '22'])).to(
