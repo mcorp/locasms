@@ -69,7 +69,7 @@ describe LocaSMS::Numbers do
         once.
         with(:good).
         and_return(true)
-      expect(subject).to receive(:valid_number?)
+      expect(subject).to receive(:valid_number?).
         once.
         with(:bad).
         and_return(false)
