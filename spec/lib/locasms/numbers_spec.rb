@@ -5,16 +5,16 @@ describe LocaSMS::Numbers do
 
   describe '.initialize' do
     subject do
-      expect_any_instance_of(LocaSMS::Numbers)
-        .to receive(:evaluate)
-        .once
-        .with([:numbers])
-        .and_return({ good: [1,3], bad: [2,4] })
+      expect_any_instance_of(LocaSMS::Numbers).
+        to receive(:evaluate).
+        once.
+        with([:numbers]).
+        and_return(good: [1,3], bad: [2,4])
       LocaSMS::Numbers.new :numbers
     end
 
     it { expect(subject.good).to eq([1,3]) }
-    it { expect(subject.bad).to eq([2,4])  }
+    it { expect(subject.bad).to eq([2,4]) }
   end
 
   describe '#normalize' do
@@ -61,20 +61,20 @@ describe LocaSMS::Numbers do
 
   describe '#evaluate' do
     it 'Should separate numbers in good and bad' do
-      expect(subject).to receive(:normalize)
-        .once
-        .with([:numbers])
-        .and_return([:good, :bad])
+      expect(subject).to receive(:normalize).
+        once.
+        with([:numbers]).
+        and_return([:good, :bad])
+      expect(subject).to receive(:valid_number?).
+        once.
+        with(:good).
+        and_return(true).
       expect(subject).to receive(:valid_number?)
-        .once
-        .with(:good)
-        .and_return(true)
-      expect(subject).to receive(:valid_number?)
-        .once
-        .with(:bad)
-        .and_return(false)
+        once.
+        with(:bad).
+        and_return(false)
       expect(subject.evaluate(:numbers)).to(
-        eq({ good: [:good], bad: [:bad] })
+        eq(good: [:good], bad: [:bad])
       )
     end
   end
@@ -96,9 +96,9 @@ describe LocaSMS::Numbers do
     end
 
     it 'Should return all good numbers in a string comma separated' do
-      expect(subject).to receive(:good)
-        .once
-        .and_return([1,2,3,4])
+      expect(subject).to receive(:good).
+        once.
+        and_return([1,2,3,4])
       expect(subject.to_s).to eq('1,2,3,4')
     end
   end
