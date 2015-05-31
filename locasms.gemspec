@@ -24,6 +24,7 @@ Gem::Specification.new do |spec|
   # test stuff
   spec.add_development_dependency 'rspec', '~> 3.2'
   spec.add_development_dependency 'fuubar', '~> 2.0.0'
+  spec.add_development_dependency 'timecop', '~> 0.7.3'
 
   # run tests automatically
   spec.add_development_dependency 'guard'

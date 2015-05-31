@@ -3,7 +3,11 @@ module LocaSMS
   # Client to interact with LocaSMS API
   class Client
     # Default API address
-    ENDPOINT = 'http://173.44.33.18/painel/api.ashx'
+    ENDPOINT = if Time.now >= Time.parse('2015-06-01T00:00:00-0300')
+                 'http://209.133.196.250/painel/api.ashx'
+               else
+                 'http://173.44.33.18/painel/api.ashx'
+               end
 
     attr_reader :login, :password
 
