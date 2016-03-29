@@ -13,7 +13,7 @@ describe LocaSMS::Client do
       end
     end
 
-    it 'prior to Jun 1st 2015' do
+    it 'prior to Jun 1st, 2015' do
       test_when('2015-05-31T23:59:59-0300') do
         expect(LocaSMS::Client::ENDPOINT).to(
           eq('http://173.44.33.18/painel/api.ashx')
@@ -21,7 +21,7 @@ describe LocaSMS::Client do
       end
     end
 
-    it 'is Jun 1st 2015' do
+    it 'is Jun 1st, 2015' do
       test_when('2015-06-01T00:00:00-0300') do
         expect(LocaSMS::Client::ENDPOINT).to(
           eq('http://209.133.196.250/painel/api.ashx')
@@ -29,10 +29,26 @@ describe LocaSMS::Client do
       end
     end
 
-    it 'after Jun 1st 2015' do
-      test_when('2016-01-01T00:00:00-0300') do
+    it 'after Jun 1st, 2015 and prior to March 29, 2016' do
+      test_when('2016-03-28T00:00:00-0300') do
         expect(LocaSMS::Client::ENDPOINT).to(
           eq('http://209.133.196.250/painel/api.ashx')
+        )
+      end
+    end
+
+    it 'is March 29, 2016' do
+      test_when('2016-03-29T00:00:00-0300') do
+        expect(LocaSMS::Client::ENDPOINT).to(
+          eq('http://54.173.24.177/painel/api.ashx')
+        )
+      end
+    end
+
+    it 'after March 29, 2016' do
+      test_when('2017-01-01T00:00:00-0300') do
+        expect(LocaSMS::Client::ENDPOINT).to(
+          eq('http://54.173.24.177/painel/api.ashx')
         )
       end
     end

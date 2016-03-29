@@ -3,7 +3,9 @@ module LocaSMS
   # Client to interact with LocaSMS API
   class Client
     # Default API address
-    ENDPOINT = if Time.now >= Time.parse('2015-06-01T00:00:00-0300')
+    ENDPOINT = if Time.now >= Time.parse('2016-03-29T00:00:00-0300')
+                 'http://54.173.24.177/painel/api.ashx'
+               elsif Time.now >= Time.parse('2015-06-01T00:00:00-0300')
                  'http://209.133.196.250/painel/api.ashx'
                else
                  'http://173.44.33.18/painel/api.ashx'
