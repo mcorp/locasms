@@ -3,7 +3,7 @@
 
 > :warning: After `March 29, 2016` the base IP of the service will change as noticed on this [issue](https://github.com/mcorp/locasms/issues/6). If you don't upgrade to version `0.1.7` your app will stop delivering SMS
 
-Client to consume [LocaSMS api's][0].
+Client to consume API's from [LocaSMS][0] and its Short Code SMS version [SMS Plataforma][1].
 
 ## Installation
 
@@ -26,7 +26,11 @@ Simple example:
 ```ruby
 require 'locasms'
 
+# Default:
 cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD'
+
+# Short Code:
+cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD', type: :shortcode
 
 # delivering message to one mobile
 cli.deliver 'my message', '1155559999'
@@ -67,4 +71,5 @@ cli.campaign_release '0000'
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-[0]: http://locasms.com.br/#page_2/
+[0]: http://locasms.com.br
+[1]: http://smsplataforma.com.br

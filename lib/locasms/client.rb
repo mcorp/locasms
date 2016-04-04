@@ -2,16 +2,16 @@ module LocaSMS
 
   # Client to interact with LocaSMS API
   class Client
-    # Default API address
-    ENDPOINT = if Time.now >= Time.parse('2016-03-29T00:00:00-0300')
-                 'http://54.173.24.177/painel/api.ashx'
-               elsif Time.now >= Time.parse('2015-06-01T00:00:00-0300')
-                 'http://209.133.196.250/painel/api.ashx'
-               else
-                 'http://173.44.33.18/painel/api.ashx'
-               end
+    # Default API "domain"
+    DOMAIN = '54.173.24.177'.freeze
 
-    attr_reader :login, :password
+    # Default API address
+    ENDPOINT = {
+      default:   "http://#{DOMAIN}/painel/api.ashx",
+      shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
+    }.freeze
+
+    attr_reader :login, :password, :type
 
     # @param [String] login authorized user
     # @param [String] password access password
@@ -20,7 +20,7 @@ module LocaSMS
     def initialize(login, password, opts={})
       @login    = login
       @password = password
-
+      @type = opts[:type] || :default
       @rest = opts[:rest_client]
     end
 
@@ -97,13 +97,13 @@ module LocaSMS
       rest.get(:releasesms, id: id)['data']
     end
 
-  private
+    private
 
     # Gets the current RestClient to handle http requests
     # @return [RestClient] you can set on class creation passing it on the options
     # @private
     def rest
-      @rest ||= RestClient.new ENDPOINT, lgn: login, pwd: password
+      @rest ||= RestClient.new ENDPOINT[type], lgn: login, pwd: password
     end
 
     # Processes and returns all good numbers in a string
@@ -117,7 +117,5 @@ module LocaSMS
 
       raise Exception("Bad numbers were given: #{numbers.bad.join(',')}")
     end
-
   end
-
 end
