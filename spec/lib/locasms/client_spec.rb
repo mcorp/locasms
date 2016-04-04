@@ -9,7 +9,8 @@ describe LocaSMS::Client do
 
     context 'When default' do
       it 'Should return the default URL' do
-        expect(LocaSMS::Client::ENDPOINT[subject.type]).to eq("http://#{domain}/painel/api.ashx")
+        endpoint = LocaSMS::Client::ENDPOINT[subject.type]
+        expect(endpoint).to eq("http://#{domain}/painel/api.ashx")
       end
     end
 
@@ -17,7 +18,8 @@ describe LocaSMS::Client do
       subject { LocaSMS::Client.new :login, :password, type: :shortcode }
 
       it 'Should return the short code URL' do
-        expect(LocaSMS::Client::ENDPOINT[subject.type]).to eq("http://#{domain}/shortcode/api.ashx")
+        endpoint = LocaSMS::Client::ENDPOINT[subject.type]
+        expect(endpoint).to eq("http://#{domain}/shortcode/api.ashx")
       end
     end
   end

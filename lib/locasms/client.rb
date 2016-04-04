@@ -3,13 +3,13 @@ module LocaSMS
   # Client to interact with LocaSMS API
   class Client
     # Default API "domain"
-    DOMAIN = '54.173.24.177'
+    DOMAIN = '54.173.24.177'.freeze
 
     # Default API address
     ENDPOINT = {
       default:   "http://#{DOMAIN}/painel/api.ashx",
       shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
-    }
+    }.freeze
 
     attr_reader :login, :password, :type
 
