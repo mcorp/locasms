@@ -3,7 +3,7 @@
 
 > :warning: After `March 29, 2016` the base IP of the service will change as noticed on this [issue](https://github.com/mcorp/locasms/issues/6). If you don't upgrade to version `0.1.7` your app will stop delivering SMS
 
-Client to consume LocaSMS' [default][0] and [short code][1] API's.
+Client to consume API's from [LocaSMS][0] and its Short Code SMS version [SMS Plataforma][1].
 
 ## Installation
 
@@ -29,7 +29,7 @@ require 'locasms'
 # Default:
 cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD'
 
-# Short code:
+# Short Code:
 cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD', type: :shortcode
 
 # delivering message to one mobile
