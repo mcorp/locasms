@@ -7,8 +7,8 @@ module LocaSMS
 
     # Default API address
     ENDPOINT = {
-      default:    "http://#{DOMAIN}/painel/api.ashx",
-      short_code: "http://#{DOMAIN}/shortcode/api.ashx"
+      default:   "http://#{DOMAIN}/painel/api.ashx",
+      shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
     }
 
     attr_reader :login, :password, :type
