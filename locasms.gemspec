@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
 
   # test stuff
   spec.add_development_dependency 'rspec',   '~> 3.2'
-  spec.add_development_dependency 'timecop', '~> 0.7.3'
+  spec.add_development_dependency 'timecop', '~> 0.8.1'
 
   # for documentation
   spec.add_development_dependency 'yard'
