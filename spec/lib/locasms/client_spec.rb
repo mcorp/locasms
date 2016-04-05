@@ -14,7 +14,7 @@ describe LocaSMS::Client do
       end
     end
 
-    context 'When default' do
+    context 'When shortcode' do
       subject { LocaSMS::Client.new :login, :password, type: :shortcode }
 
       it 'Should return the short code URL' do

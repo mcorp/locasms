@@ -1,4 +1,5 @@
 require 'json'
+require 'net/http'
 
 module LocaSMS
 
@@ -39,7 +40,11 @@ module LocaSMS
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
     def get(action, params={})
       params   = params_for action, params
-      response = ::RestClient.get base_url, params: params
+
+      uri = URI.parse(base_url)
+      uri.query = URI.encode_www_form(params)
+      response = Net::HTTP.get_response(uri).body
+
       parse_response(action, response)
     end
 
@@ -56,7 +61,7 @@ module LocaSMS
     #
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
     def params_for(action, params={})
-      {action: action}.merge(base_params).merge(params)
+      { action: action }.merge(base_params).merge(params)
     end
 
     # Parses a result trying to get it in json
