@@ -10,7 +10,18 @@ describe LocaSMS::RestClient do
   end
 
   describe '#get' do
-    it 'Is missing tests for get'
+    let(:action) { 'sendsms' }
+    let(:params) { { lgn: 'LOGIN', pwd: 'PASSWORD' } }
+    let(:body) { '{"status":1,"data":28,"msg":null}' }
+    subject { LocaSMS::RestClient.new(action, params) }
+
+    it 'Performs get request to url with parameters' do
+      expect(Net::HTTP).
+        to receive(:get_response).
+             and_return(OpenStruct.new(body: body))
+
+      subject.get(action, params)
+    end
   end
 
   describe '#params_for' do
