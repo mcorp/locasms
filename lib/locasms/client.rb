@@ -11,7 +11,7 @@ module LocaSMS
       shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
     }.freeze
 
-    attr_reader :login, :password, :type
+    attr_reader :login, :password, :type, :callback
 
     # @param [String] login authorized user
     # @param [String] password access password
@@ -20,8 +20,9 @@ module LocaSMS
     def initialize(login, password, opts={})
       @login    = login
       @password = password
-      @type = opts[:type] || :default
-      @rest = opts[:rest_client]
+      @type     = opts[:type] || :default
+      @rest     = opts[:rest_client]
+      @callback = opts[:url_callback]
     end
 
     # Sends a message to one or more mobiles
@@ -29,8 +30,13 @@ module LocaSMS
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return [String] campaign id on success
     # @raise [LocaSMS::Exception] if bad numbers were given
-    def deliver(message, *mobiles)
-      rest.get(:sendsms, msg: message, numbers: numbers(mobiles))['data']
+    def deliver(message, *mobiles, **opts)
+      attrs = {
+        msg: message,
+        numbers: numbers(mobiles),
+        url_callback: callback
+      }.merge(opts)
+      rest.get(:sendsms, attrs)['data']
     end
 
     # Schedule the send of a message to one or more mobiles
@@ -39,9 +45,16 @@ module LocaSMS
     # @param [String,Array<String>] mobiles number of the mobiles to address the message
     # @return UNDEF
     # @raise [LocaSMS::Exception] if bad numbers were given
-    def deliver_at(message, datetime, *mobiles)
+    def deliver_at(message, datetime, *mobiles, **opts)
       date, time = Helpers::DateTimeHelper.split datetime
-      rest.get(:sendsms, msg: message, numbers: numbers(mobiles), jobdate: date, jobtime: time)['data']
+      attrs = {
+        msg: message,
+        numbers: numbers(mobiles),
+        jobdate: date,
+        jobtime: time,
+        url_callback: callback
+      }.merge(opts)
+      rest.get(:sendsms, attrs)['data']
     end
 
     # Get de current amount of sending credits

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LocaSMS::Client do
   let(:rest_client) { 'rest_client mock' }
-  subject { LocaSMS::Client.new :login, :password, rest_client: rest_client }
+  subject { LocaSMS::Client.new :login, :password, rest_client: rest_client, callback: nil }
 
   describe '::ENDPOINT' do
     let(:domain) { LocaSMS::Client::DOMAIN }
@@ -38,7 +38,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX')
+        .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: nil)
         .and_return({})
 
       subject.deliver 'given message', :a, :b, :c
@@ -53,6 +53,40 @@ describe LocaSMS::Client do
       expect(rest_client).to receive(:get).never
 
       expect { subject.deliver('given message', :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+    end
+
+    context 'with callback option' do
+      context 'callback given as arg to #deliver' do
+        it 'uses specific callback' do
+          expect(subject).to receive(:numbers)
+            .once
+            .with([:a, :b, :c])
+            .and_return('XXX')
+
+          expect(rest_client).to receive(:get)
+            .once
+            .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'something')
+            .and_return({})
+
+          subject.deliver 'given message', :a, :b, :c, url_callback: 'something'
+        end
+      end
+
+      it 'uses default callback' do
+        client = LocaSMS::Client.new :login, :password, rest_client: rest_client, url_callback: 'default'
+
+        expect(client).to receive(:numbers)
+          .once
+          .with([:a, :b, :c])
+          .and_return('XXX')
+
+        expect(rest_client).to receive(:get)
+          .once
+          .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'default')
+          .and_return({})
+
+        client.deliver 'given message', :a, :b, :c
+      end
     end
   end
 
@@ -70,7 +104,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time')
+        .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
         .and_return({})
 
       subject.deliver_at 'given message', :datetime, :a, :b, :c
@@ -90,6 +124,50 @@ describe LocaSMS::Client do
       expect(rest_client).to receive(:get).never
 
       expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+    end
+
+    context 'with callback option' do
+      context 'callback given as arg to #deliver' do
+        it 'uses specific callback' do
+          expect(subject).to receive(:numbers)
+            .once
+            .with([:a, :b, :c])
+            .and_return('XXX')
+
+          expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+            .once
+            .with(:datetime)
+            .and_return(%w[date time])
+
+          expect(rest_client).to receive(:get)
+            .once
+            .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'something')
+            .and_return({})
+
+          subject.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
+        end
+      end
+
+      it 'uses default callback' do
+        client = LocaSMS::Client.new :login, :password, rest_client: rest_client, url_callback: 'default'
+
+        expect(client).to receive(:numbers)
+          .once
+          .with([:a, :b, :c])
+          .and_return('XXX')
+
+        expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+          .once
+          .with(:datetime)
+          .and_return(%w[date time])
+
+        expect(rest_client).to receive(:get)
+          .once
+          .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'default')
+          .and_return({})
+
+        client.deliver_at 'given message', :datetime, :a, :b, :c
+      end
     end
   end
 
