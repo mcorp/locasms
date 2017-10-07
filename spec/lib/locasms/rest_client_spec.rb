@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe LocaSMS::RestClient do
+  let(:callback) { 'http://example.com/callback' }
+  let(:params) { { lgn: 'LOGIN', pwd: 'PASSWORD', url_callback: callback } }
+
   describe '.initialize' do
     context 'When giving proper initialization parameters' do
       subject { LocaSMS::RestClient.new :url, :params }
@@ -11,7 +14,6 @@ describe LocaSMS::RestClient do
 
   describe '#get' do
     let(:action) { 'sendsms' }
-    let(:params) { { lgn: 'LOGIN', pwd: 'PASSWORD' } }
     let(:body) { '{"status":1,"data":28,"msg":null}' }
     subject { LocaSMS::RestClient.new(action, params) }
 
@@ -25,10 +27,17 @@ describe LocaSMS::RestClient do
   end
 
   describe '#params_for' do
-    subject { LocaSMS::RestClient.new :url, { b1: 'X' } }
+    subject { LocaSMS::RestClient.new :url, params }
 
-    it { expect(subject.params_for(:action)).to eq({action: :action, b1: 'X'}) }
-    it { expect(subject.params_for(:action, p1: 10)).to eq({action: :action, b1: 'X', p1: 10}) }
+    it { expect(subject.params_for(:action)).to eq({action: :action}.merge(params)) }
+    it { expect(subject.params_for(:action, p1: 10)).to eq({action: :action, p1: 10}.merge(params)) }
+
+    context 'callback nil' do
+      let(:callback) { nil }
+      it 'should not be in params' do
+        expect(subject.params_for(:action)).to eq({action: :action, lgn: 'LOGIN', pwd: 'PASSWORD'})
+      end
+    end
   end
 
   describe '#parse_response' do
