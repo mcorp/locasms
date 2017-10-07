@@ -19,12 +19,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency 'bundler', '~> 1.11'
-  spec.add_development_dependency 'rake',    '~> 10.4.2'
+  spec.add_development_dependency 'bundler', '~> 1.15.4'
+  spec.add_development_dependency 'rake',    '~> 12.1.0'
 
   # test stuff
-  spec.add_development_dependency 'rspec',   '~> 3.2'
-  spec.add_development_dependency 'timecop', '~> 0.8.1'
+  spec.add_development_dependency 'rspec',   '~> 3.6'
+  spec.add_development_dependency 'timecop', '~> 0.9.1'
 
   # for documentation
   spec.add_development_dependency 'yard'
