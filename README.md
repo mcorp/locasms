@@ -32,6 +32,9 @@ cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD'
 # Short Code:
 cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD', type: :shortcode
 
+# With default url callback (optional):
+cli = LocaSMS::Client.new 'LOGIN', 'PASSWORD', url_callback: 'http://url.to/callback'
+
 # delivering message to one mobile
 cli.deliver 'my message', '1155559999'
 
@@ -41,6 +44,9 @@ cli.deliver 'my message', '1199998888', '5500002222'
 cli.deliver 'my message', ['1199998888', '5500002222']
 cli.deliver 'my message', %w(1199998888 5500002222)
 
+# delivering message with url callback
+cli.deliver 'my message', '1155559999', url_callback: 'http://url.to/callback'
+
 # scheduling the deliver of a message to one mobile
 cli.deliver_at 'my message', '2013-10-12 20:33:00', '1155559999'
 
@@ -49,6 +55,9 @@ cli.deliver_at 'my message', '2013-10-12 20:33:00', '1199998888,5500002222'
 cli.deliver_at 'my message', '2013-10-12 20:33:00', '1199998888', '5500002222'
 cli.deliver_at 'my message', '2013-10-12 20:33:00', ['1199998888', '5500002222']
 cli.deliver_at 'my message', '2013-10-12 20:33:00', %w(1199998888 5500002222)
+
+# scheduling the deliver of a message with url callback
+cli.deliver_at 'my message', '2013-10-12 20:33:00', '1155559999', url_callback: 'http://url.to/callback'
 
 # geting the remaining balance
 cli.balance
