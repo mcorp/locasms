@@ -1,7 +1,7 @@
 # locasms
 [![Gem Version](https://badge.fury.io/rb/locasms.svg)](http://badge.fury.io/rb/locasms) [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Dependency Status](https://gemnasium.com/mcorp/locasms.png)](https://gemnasium.com/mcorp/locasms) [![Code Climate](https://codeclimate.com/github/mcorp/locasms.png)](https://codeclimate.com/github/mcorp/locasms) [![Inline docs](http://inch-ci.org/github/mcorp/locasms.svg?branch=master)](http://inch-ci.org/github/mcorp/locasms)
 
-> :warning: After `March 29, 2016` the base IP of the service will change as noticed on this [issue](https://github.com/mcorp/locasms/issues/6). If you don't upgrade to version `0.1.7` your app will stop delivering SMS
+> :warning: After `February, 10, 2018` the base IP of the service will change as noticed on this[issue](https://github.com/mcorp/locasms/issues/21). If you don't upgrade to version `0.3.1` your app will stop delivering SMS.
 
 Client to consume API's from [LocaSMS][0] and its Short Code SMS version [SMS Plataforma][1].
 
