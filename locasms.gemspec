@@ -25,6 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake',      '~> 12.1'
 
   # test stuff
+  spec.add_development_dependency 'minitest',  '~> 5.8'
+  spec.add_development_dependency 'mocha',     '~> 1.7'
+  spec.add_development_dependency 'shoulda',   '~> 3.5'
   spec.add_development_dependency 'rspec',     '~> 3.6'
   spec.add_development_dependency 'timecop',   '~> 0.9'
 
