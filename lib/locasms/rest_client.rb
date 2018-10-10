@@ -73,7 +73,7 @@ module LocaSMS
     def parse_response(action, response)
       raise InvalidOperation.new(action: action) if response =~ /^0:OPERACAO INVALIDA$/i
 
-      j = JSON.parse(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
+      j = MultiJson.load(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
 
       return j if j['status'] == 1 or action == :getstatus
 
