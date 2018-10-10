@@ -1,8 +1,7 @@
 require 'locasms/version'
 
-autoload :CSV,    'csv'
-autoload :JSON,   'json'
-autoload :Logger, 'logger'
+autoload :CSV,       'csv'
+autoload :MultiJson, 'multi_json'
 
 module LocaSMS
   autoload :Client,           'locasms/client'
