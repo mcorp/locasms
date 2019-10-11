@@ -35,5 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'redcarpet', '~> 3.4'
 
   # for code coverage
-  spec.add_development_dependency 'simplecov', '~> 0.15'
+  spec.add_development_dependency 'simplecov', '~> 0.17'
 end
