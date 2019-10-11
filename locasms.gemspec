@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   # for documentation
   spec.add_development_dependency 'yard',      '~> 0.9'
-  spec.add_development_dependency 'redcarpet', '~> 3.4'
+  spec.add_development_dependency 'redcarpet', '~> 3.5'
 
   # for code coverage
   spec.add_development_dependency 'simplecov', '~> 0.17'
