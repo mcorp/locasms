@@ -1,5 +1,5 @@
 # locasms
-[![Gem Version](https://badge.fury.io/rb/locasms.svg)](http://badge.fury.io/rb/locasms) [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Code Climate](https://codeclimate.com/github/mcorp/locasms.png)](https://codeclimate.com/github/mcorp/locasms) [![Inline docs](http://inch-ci.org/github/mcorp/locasms.svg?branch=master)](http://inch-ci.org/github/mcorp/locasms)
+[![Gem Version](https://badge.fury.io/rb/locasms.svg)](http://badge.fury.io/rb/locasms) [![Build Status](https://travis-ci.org/mcorp/locasms.png?branch=master)](https://travis-ci.org/mcorp/locasms) [![Code Climate](https://api.codeclimate.com/v1/badges/4187ea939aabd3b66bf7/maintainability)](https://codeclimate.com/github/mcorp/locasms) [![CC Coverage](https://api.codeclimate.com/v1/badges/4187ea939aabd3b66bf7/test_coverage)](https://codeclimate.com/github/mcorp/locasms/test_coverage) [![Inline docs](http://inch-ci.org/github/mcorp/locasms.svg?branch=master)](http://inch-ci.org/github/mcorp/locasms)
 
 > :warning: After `February, 10, 2018` the base IP of the service will change as noticed on this [issue](https://github.com/mcorp/locasms/issues/21). If you don't upgrade to version `0.3.1` your app will stop delivering SMS.
 
