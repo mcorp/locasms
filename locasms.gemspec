@@ -19,21 +19,21 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.required_ruby_version = '~> 2.1'
+  spec.required_ruby_version = '~> 2.2'
 
-  spec.add_dependency 'multi_json', '~> 1.0'
+  spec.add_dependency 'multi_json', '~> 1.13'
 
-  spec.add_development_dependency 'bundler',   '~> 1.15'
-  spec.add_development_dependency 'rake',      '~> 12.1'
+  spec.add_development_dependency 'bundler',   '~> 1.17'
+  spec.add_development_dependency 'rake',      '~> 13.0'
 
   # test stuff
-  spec.add_development_dependency 'rspec',     '~> 3.6'
+  spec.add_development_dependency 'rspec',     '~> 3.9'
   spec.add_development_dependency 'timecop',   '~> 0.9'
 
   # for documentation
   spec.add_development_dependency 'yard',      '~> 0.9'
-  spec.add_development_dependency 'redcarpet', '~> 3.4'
+  spec.add_development_dependency 'redcarpet', '~> 3.5'
 
   # for code coverage
-  spec.add_development_dependency 'simplecov', '~> 0.15'
+  spec.add_development_dependency 'simplecov', '~> 0.17'
 end
