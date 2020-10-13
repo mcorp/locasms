@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module LocaSMS
-
   # Class that sanitizes and validates a list of mobile's numbers
   class Numbers
     attr_reader :good, :bad
@@ -77,5 +76,4 @@ module LocaSMS
       (good || []).join(',')
     end
   end
-
 end

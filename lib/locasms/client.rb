@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module LocaSMS
-
   # Client to interact with LocaSMS API
   class Client
     # Default API "domain"

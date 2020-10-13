@@ -4,7 +4,6 @@ require 'json'
 require 'net/http'
 
 module LocaSMS
-
   # Class that handle http calls to LocaSMS api
   # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio List of avaiable services
   class RestClient
@@ -83,5 +82,4 @@ module LocaSMS
       raise Exception.new(message: j['msg'], raw: response, action: action)
     end
   end
-
 end

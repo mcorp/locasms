@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module LocaSMS
-
   # Common base exception
   class Exception < ::Exception
     attr_reader :raw, :action
@@ -34,5 +33,4 @@ module LocaSMS
       'Invalid Login'
     end
   end
-
 end

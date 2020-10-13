@@ -2,7 +2,6 @@
 
 module LocaSMS
 module Helpers
-
   # Helper class to handle with time parsing
   class DateTimeHelper
     # Parse a value into a time
@@ -71,6 +70,5 @@ module Helpers
       DateTimeHelper.split date
     end
   end
-
 end
 end
