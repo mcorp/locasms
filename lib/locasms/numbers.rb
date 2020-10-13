@@ -47,6 +47,7 @@ module LocaSMS
     # @return [TrueClass, FalseClass] true if the number is valid
     def valid_number?(number)
       return false if number.nil? or number =~ /[^0-9a-zA-Z]/
+
       [10, 11].include? number.size
     end
 
