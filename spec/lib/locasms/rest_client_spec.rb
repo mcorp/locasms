@@ -65,5 +65,4 @@ describe LocaSMS::RestClient do
       expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq({ 'status' => 1, 'data' => 28, 'msg' => nil })
     end
   end
-
 end

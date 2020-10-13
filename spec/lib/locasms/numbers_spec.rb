@@ -104,5 +104,4 @@ describe LocaSMS::Numbers do
       expect(subject.to_s).to eq('1,2,3,4')
     end
   end
-
 end

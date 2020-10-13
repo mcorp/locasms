@@ -206,5 +206,4 @@ describe LocaSMS::Client do
 
     it 'Should have tests to cover campaign_status csv result'
   end
-
 end
