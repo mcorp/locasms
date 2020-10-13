@@ -26,12 +26,12 @@ describe LocaSMS::Numbers do
       )
     end
     it do
-      expect(subject.normalize('55', ['11', '22'])).to(
+      expect(subject.normalize('55', %w(11 22))).to(
         eq(%w(55 11 22))
       )
     end
     it do
-      expect(subject.normalize(['55', 'ZZ', '22'])).to(
+      expect(subject.normalize(%w(55 ZZ 22))).to(
         eq(%w(55 ZZ 22))
       )
     end
