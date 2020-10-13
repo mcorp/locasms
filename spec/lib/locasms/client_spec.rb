@@ -40,7 +40,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: nil)
         .and_return({})
 
       subject.deliver 'given message', :a, :b, :c
@@ -67,7 +67,7 @@ describe LocaSMS::Client do
 
           expect(rest_client).to receive(:get)
             .once
-            .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'something')
+            .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'something')
             .and_return({})
 
           subject.deliver 'given message', :a, :b, :c, url_callback: 'something'
@@ -84,7 +84,7 @@ describe LocaSMS::Client do
 
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'default')
+          .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'default')
           .and_return({})
 
         client.deliver 'given message', :a, :b, :c
@@ -106,7 +106,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
         .and_return({})
 
       subject.deliver_at 'given message', :datetime, :a, :b, :c
@@ -143,7 +143,7 @@ describe LocaSMS::Client do
 
           expect(rest_client).to receive(:get)
             .once
-            .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'something')
+            .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'something')
             .and_return({})
 
           subject.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
@@ -165,7 +165,7 @@ describe LocaSMS::Client do
 
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'default')
+          .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'default')
           .and_return({})
 
         client.deliver_at 'given message', :datetime, :a, :b, :c
