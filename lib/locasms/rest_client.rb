@@ -62,7 +62,7 @@ module LocaSMS
     #
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
     def params_for(action, params = {})
-      { action: action }.merge(base_params).merge(params).select {|k, v| v }
+      { action: action }.merge(base_params).merge(params).select { |k, v| v }
     end
 
     # Parses a result trying to get it in json
