@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe LocaSMS::Numbers do
@@ -18,7 +20,7 @@ describe LocaSMS::Numbers do
   end
 
   describe '#normalize' do
-    it do 
+    it do
       expect(subject.normalize('+55 (11) 8888-9999')).to(
         eq(%w(551188889999))
       )
@@ -38,7 +40,7 @@ describe LocaSMS::Numbers do
         eq(%w(55 44 33 ZZ 22 11))
       )
     end
-    it do 
+    it do
       expect(subject.normalize(55, [11, 22])).to(
         eq(%w(55 11 22))
       )

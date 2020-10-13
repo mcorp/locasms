@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LocaSMS
 
   # Class that sanitizes and validates a list of mobile's numbers

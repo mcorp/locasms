@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'locasms/version'
 
 autoload :CSV,       'csv'

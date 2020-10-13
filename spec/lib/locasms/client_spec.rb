@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe LocaSMS::Client do
-  let(:rest_client) { 'rest_client mock' }
+  let(:rest_client) { double :rest_client }
   subject { LocaSMS::Client.new :login, :password, rest_client: rest_client, callback: nil }
 
   describe '::ENDPOINT' do
@@ -121,7 +123,7 @@ describe LocaSMS::Client do
         .with(:datetime)
         .and_return(%w[date time])
 
-      expect(rest_client).to receive(:get).never
+      expect(rest_client).not_to receive(:get)
 
       expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
