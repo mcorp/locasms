@@ -31,13 +31,13 @@ describe LocaSMS::RestClient do
   describe '#params_for' do
     subject { LocaSMS::RestClient.new :url, params }
 
-    it { expect(subject.params_for(:action)).to eq({action: :action}.merge(params)) }
-    it { expect(subject.params_for(:action, p1: 10)).to eq({action: :action, p1: 10}.merge(params)) }
+    it { expect(subject.params_for(:action)).to eq({ action: :action }.merge(params)) }
+    it { expect(subject.params_for(:action, p1: 10)).to eq({ action: :action, p1: 10 }.merge(params)) }
 
     context 'callback nil' do
       let(:callback) { nil }
       it 'should not be in params' do
-        expect(subject.params_for(:action)).to eq({action: :action, lgn: 'LOGIN', pwd: 'PASSWORD'})
+        expect(subject.params_for(:action)).to eq({ action: :action, lgn: 'LOGIN', pwd: 'PASSWORD' })
       end
     end
   end
@@ -58,11 +58,11 @@ describe LocaSMS::RestClient do
     end
 
     it 'Should return the non-json value as a json' do
-      expect(subject.parse_response(:action, 'non-json return')).to eq({'status' => 1, 'data' => 'non-json return', 'msg' => nil})
+      expect(subject.parse_response(:action, 'non-json return')).to eq({ 'status' => 1, 'data' => 'non-json return', 'msg' => nil })
     end
 
     it 'Should return a parsed json return' do
-      expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq({'status' => 1, 'data' => 28, 'msg' => nil})
+      expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq({ 'status' => 1, 'data' => 28, 'msg' => nil })
     end
   end
 
