@@ -72,14 +72,14 @@ module LocaSMS
       begin
         CSV.new(response['data'] || '', col_sep: ';', quote_char: '"').map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
           status = if status =~ /aguardando envio/i
-            :waiting
-          elsif status =~ /sucesso/i
-            :success
-          elsif status =~ /numero invalido|nao cadastrado/i
-            :invalid
-          else
-            :unknown
-          end
+                     waiting
+                   elsif status =~ /sucesso/i
+                     success
+                   elsif status =~ /numero invalido|nao cadastrado/i
+                     invalid
+                   else
+                     unknown
+                   end
 
           {
             campaign_id: id,
