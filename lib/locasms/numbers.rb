@@ -11,7 +11,8 @@ module LocaSMS
     # @see #evaluate
     def initialize(*numbers)
       evaluated   = evaluate(numbers)
-      @good, @bad = evaluated[:good], evaluated[:bad]
+      @good = evaluated[:good]
+      @bad = evaluated[:bad]
     end
 
     # Checks if there are bad numbers
