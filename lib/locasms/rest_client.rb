@@ -12,7 +12,7 @@ module LocaSMS
     # Creates a new instance of the RestClient class
     # @param [String] base_url a well formed url
     # @param [Hash] base_params base params to send on every call
-    def initialize(base_url, base_params={})
+    def initialize(base_url, base_params = {})
       @base_url    = base_url
       @base_params = base_params
     end
@@ -39,7 +39,7 @@ module LocaSMS
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
-    def get(action, params={})
+    def get(action, params = {})
       params   = params_for action, params
 
       uri = URI.parse(base_url)
@@ -61,7 +61,7 @@ module LocaSMS
     #    # => { action: :ACTION, lgn: 'LOGIN', pwd: 'PASSWORD', a: 1, b: 2 }
     #
     # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
-    def params_for(action, params={})
+    def params_for(action, params = {})
       { action: action }.merge(base_params).merge(params).select {|k, v| v }
     end
 

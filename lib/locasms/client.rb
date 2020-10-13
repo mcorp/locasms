@@ -18,7 +18,7 @@ module LocaSMS
     # @param [String] password access password
     # @param [Hash] opts
     # @option opts :rest_client (RestClient) client to be used to handle http requests
-    def initialize(login, password, opts={})
+    def initialize(login, password, opts = {})
       @login    = login
       @password = password
       @type     = opts[:type] || :default
