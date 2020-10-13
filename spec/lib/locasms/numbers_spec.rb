@@ -66,7 +66,7 @@ describe LocaSMS::Numbers do
       expect(subject).to receive(:normalize).
         once.
         with([:numbers]).
-        and_return([:good, :bad])
+        and_return(%i[good bad])
       expect(subject).to receive(:valid_number?).
         once.
         with(:good).

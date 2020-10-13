@@ -35,7 +35,7 @@ describe LocaSMS::Client do
     it 'Should send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_return('XXX')
 
       expect(rest_client).to receive(:get)
@@ -49,7 +49,7 @@ describe LocaSMS::Client do
     it 'Should not send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_raise(LocaSMS::Exception)
 
       expect(rest_client).to receive(:get).never
@@ -62,7 +62,7 @@ describe LocaSMS::Client do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
-            .with([:a, :b, :c])
+            .with(%i[a b c])
             .and_return('XXX')
 
           expect(rest_client).to receive(:get)
@@ -79,7 +79,7 @@ describe LocaSMS::Client do
 
         expect(client).to receive(:numbers)
           .once
-          .with([:a, :b, :c])
+          .with(%i[a b c])
           .and_return('XXX')
 
         expect(rest_client).to receive(:get)
@@ -96,7 +96,7 @@ describe LocaSMS::Client do
     it 'Should send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_return('XXX')
 
       expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -115,7 +115,7 @@ describe LocaSMS::Client do
     it 'Should not send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_raise(LocaSMS::Exception)
 
       expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -133,7 +133,7 @@ describe LocaSMS::Client do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
-            .with([:a, :b, :c])
+            .with(%i[a b c])
             .and_return('XXX')
 
           expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -155,7 +155,7 @@ describe LocaSMS::Client do
 
         expect(client).to receive(:numbers)
           .once
-          .with([:a, :b, :c])
+          .with(%i[a b c])
           .and_return('XXX')
 
         expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
