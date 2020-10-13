@@ -65,10 +65,9 @@ module LocaSMS
     #     Numbers.new.evaluate('4199998888','11777770000','5551212')
     #     #=> {good: ['4199998888','11777770000'], bad: ['5551212']}
     def evaluate(*numbers)
-      normalize(numbers).reduce({good: [], bad: []}) do |hash, number|
+      normalize(numbers).each_with_object({good: [], bad: []}) do |number, hash|
         bucket = valid_number?(number) ? :good : :bad
         hash[bucket] << number
-        hash
       end
     end
 
