@@ -200,9 +200,9 @@ describe LocaSMS::Client do
       subject.send method, '12345'
     end
 
-    it{ check_for :campaign_status  }
-    it{ check_for :campaign_hold    }
-    it{ check_for :campaign_release }
+    it { check_for :campaign_status  }
+    it { check_for :campaign_hold    }
+    it { check_for :campaign_release }
 
     it 'Should have tests to cover campaign_status csv result'
   end
