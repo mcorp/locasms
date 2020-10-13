@@ -10,7 +10,7 @@ module LocaSMS
     # @see #normalize
     # @see #evaluate
     def initialize(*numbers)
-      evaluated   = evaluate(numbers)
+      evaluated = evaluate(numbers)
       @good = evaluated[:good]
       @bad = evaluated[:bad]
     end

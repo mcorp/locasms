@@ -40,7 +40,7 @@ module LocaSMS
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
     def get(action, params = {})
-      params   = params_for action, params
+      params = params_for action, params
 
       uri = URI.parse(base_url)
       uri.query = URI.encode_www_form(params)
