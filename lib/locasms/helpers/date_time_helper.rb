@@ -17,7 +17,7 @@ module Helpers
     #     # => 1977-03-14 14:12:00 -0300
     #
     def self.parse(date)
-      date = Time.at(date)    if date.is_a? Fixnum
+      date = Time.at(date)    if date.is_a? Integer
       date = Time.parse(date) if date.is_a? String
       date = date.to_time     if date.respond_to? :to_time
     end
