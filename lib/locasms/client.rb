@@ -8,7 +8,7 @@ module LocaSMS
 
     # Default API address
     ENDPOINT = {
-      default:   "http://#{DOMAIN}/painel/api.ashx",
+      default: "http://#{DOMAIN}/painel/api.ashx",
       shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
     }.freeze
 
