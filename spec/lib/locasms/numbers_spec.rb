@@ -83,7 +83,7 @@ describe LocaSMS::Numbers do
 
   describe '#bad?' do
     it do
-      expect(subject).to receive(:bad).once.and_return([ ])
+      expect(subject).to receive(:bad).once.and_return([])
       expect(subject.bad?).to be_falsey
     end
     it do
