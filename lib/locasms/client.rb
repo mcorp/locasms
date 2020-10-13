@@ -5,7 +5,7 @@ module LocaSMS
   # Client to interact with LocaSMS API
   class Client
     # Default API "domain"
-    DOMAIN = 'app.locasms.com.br'.freeze
+    DOMAIN = 'app.locasms.com.br'
 
     # Default API address
     ENDPOINT = {
