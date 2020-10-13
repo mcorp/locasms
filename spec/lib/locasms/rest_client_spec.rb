@@ -20,9 +20,9 @@ describe LocaSMS::RestClient do
     subject { LocaSMS::RestClient.new(action, params) }
 
     it 'Performs get request to url with parameters' do
-      expect(Net::HTTP).
-        to receive(:get_response).
-             and_return(OpenStruct.new(body: body))
+      expect(Net::HTTP)
+        .to receive(:get_response)
+             .and_return(OpenStruct.new(body: body))
 
       subject.get(action, params)
     end
