@@ -39,7 +39,7 @@ module LocaSMS
       numbers = numbers.join(',')
         .split(',')
         .map { |number| number.gsub(/[^0-9a-zA-Z]/, '') }
-        .delete_if { |number| number.empty? }
+        .delete_if(&:empty?)
     end
 
     # Validates if a mobile's number has only digits
