@@ -33,9 +33,9 @@ describe LocaSMS::Helpers::DateTimeHelper do
     end
 
     it { try_for DateTime.parse('1977-03-14 14:12:00') }
-    it { try_for Time.parse('1977-03-14 14:12:00')     }
-    it { try_for '1977-03-14 14:12:00'                 }
-    it { try_for 227_207_520                             }
+    it { try_for Time.parse('1977-03-14 14:12:00') }
+    it { try_for '1977-03-14 14:12:00' }
+    it { try_for 227_207_520 }
   end
 
   describe '.split' do
