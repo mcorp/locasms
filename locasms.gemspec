@@ -10,9 +10,9 @@ Gem::Specification.new do |spec|
   spec.version       = LocaSMS::VERSION
   spec.authors       = ["Adilson Carvalho", "Leonardo Saraiva", "Marco Carvalho"]
   spec.email         = ["lc.adilson@gmail.com", "vyper@maneh.org", "marco.carvalho.swasthya@gmail.com"]
-  spec.description   = %q{Cliente para o serviço de disparo de SMS da LocaSMS e de sua
-                          versão para Short Code SMS (SMS Plataforma)}
-  spec.summary       = %q{Cliente para disparo de SMS, regular e Short Code, através da LocaSMS/SMS Plataforma}
+  spec.description   = %q(Cliente para o serviço de disparo de SMS da LocaSMS e de sua
+                          versão para Short Code SMS (SMS Plataforma))
+  spec.summary       = %q(Cliente para disparo de SMS, regular e Short Code, através da LocaSMS/SMS Plataforma)
   spec.homepage      = "https://github.com/mcorp/locasms"
   spec.license       = "MIT"
 

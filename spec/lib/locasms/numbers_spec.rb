@@ -22,27 +22,27 @@ describe LocaSMS::Numbers do
   describe '#normalize' do
     it do
       expect(subject.normalize('+55 (11) 8888-9999')).to(
-        eq(%w(551188889999))
+        eq(%w[551188889999])
       )
     end
     it do
-      expect(subject.normalize('55', %w(11 22))).to(
-        eq(%w(55 11 22))
+      expect(subject.normalize('55', %w[11 22])).to(
+        eq(%w[55 11 22])
       )
     end
     it do
-      expect(subject.normalize(%w(55 ZZ 22))).to(
-        eq(%w(55 ZZ 22))
+      expect(subject.normalize(%w[55 ZZ 22])).to(
+        eq(%w[55 ZZ 22])
       )
     end
     it do
       expect(subject.normalize('55,44,33', ['ZZ', '22,11'])).to(
-        eq(%w(55 44 33 ZZ 22 11))
+        eq(%w[55 44 33 ZZ 22 11])
       )
     end
     it do
       expect(subject.normalize(55, [11, 22])).to(
-        eq(%w(55 11 22))
+        eq(%w[55 11 22])
       )
     end
     it { expect(subject.normalize('Z')).to eq(['Z']) }

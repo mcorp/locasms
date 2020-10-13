@@ -45,7 +45,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
         .with(:datetime)
         .and_return(Time.parse('1977-03-14 14:12:00'))
 
-      expect(subject.split(:datetime)).to eq(%w(14/03/1977 14:12))
+      expect(subject.split(:datetime)).to eq(%w[14/03/1977 14:12])
     end
   end
 
