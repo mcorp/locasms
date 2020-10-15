@@ -80,7 +80,7 @@ module LocaSMS
             { 'status' => 1, 'data' => response, 'msg' => nil }
           end
 
-      return j if j['status'] == 1 or action == :getstatus
+      return j if (j['status'] == 1) || (action == :getstatus)
 
       raise InvalidLogin.new(action: action) if j['msg'] =~ /^falha ao realizar login$/i
 
