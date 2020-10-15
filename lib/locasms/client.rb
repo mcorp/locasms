@@ -74,11 +74,12 @@ module LocaSMS
       response = rest.get(:getstatus, id: id)
       begin
         CSV.new(response['data'] || '', col_sep: ';', quote_char: '"').map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
-          status = if status =~ /aguardando envio/i
+          status = case status
+                   when /aguardando envio/i
                      waiting
-                   elsif status =~ /sucesso/i
+                   when /sucesso/i
                      success
-                   elsif status =~ /numero invalido|nao cadastrado/i
+                   when /numero invalido|nao cadastrado/i
                      invalid
                    else
                      unknown
