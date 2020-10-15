@@ -19,7 +19,7 @@ module LocaSMS
     # @return [TrueClass, FalseClass] true if there are bad numbers
     # @see #valid_number?
     def bad?
-      not bad.empty?
+      !bad.empty?
     end
 
     # Clears all non digits from a mobile's number and converts into a normalized array
