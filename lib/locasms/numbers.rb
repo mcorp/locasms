@@ -36,11 +36,11 @@ module LocaSMS
     #     numbers.normalize '8888-9999', ['AA', '6666-9999', '7777-0000'], '3333-4444,555-9999'
     #     # => ['88889999','AA','66669999','77770000','33334444','5559999']
     def normalize(*numbers)
-      numbers = numbers.join(',')
-                       .split(',')
-                       .map { |number| number.gsub(/[^0-9a-zA-Z]/, '') }
-                       .delete_if(&:empty?)
       numbers
+        .join(',')
+        .split(',')
+        .map { |number| number.gsub(/[^0-9a-zA-Z]/, '') }
+        .delete_if(&:empty?)
     end
 
     # Validates if a mobile's number has only digits
