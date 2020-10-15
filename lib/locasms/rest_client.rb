@@ -78,10 +78,10 @@ module LocaSMS
       raise InvalidOperation.new(action: action) if response =~ /^0:OPERACAO INVALIDA$/i
 
       j = begin
-            MultiJson.load(response)
-          rescue StandardError
-            { 'status' => 1, 'data' => response, 'msg' => nil }
-          end
+        MultiJson.load(response)
+      rescue StandardError
+        { 'status' => 1, 'data' => response, 'msg' => nil }
+      end
 
       return j if (j['status'] == 1) || (action == :getstatus)
 
