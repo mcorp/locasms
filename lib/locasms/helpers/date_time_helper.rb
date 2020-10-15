@@ -20,6 +20,7 @@ module Helpers
       date = Time.at(date)    if date.is_a? Integer
       date = Time.parse(date) if date.is_a? String
       date = date.to_time     if date.respond_to? :to_time
+      date
     end
 
     # Breaks a given date in date and time
