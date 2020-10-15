@@ -92,7 +92,7 @@ module LocaSMS
             message: message
           }
         end
-      rescue
+      rescue StandardError
         raise Exception.new 'Invalid delivery response data'
       end
     end

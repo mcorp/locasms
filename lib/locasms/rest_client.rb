@@ -76,7 +76,7 @@ module LocaSMS
 
       j = begin
             MultiJson.load(response)
-          rescue
+          rescue StandardError
             { 'status' => 1, 'data' => response, 'msg' => nil }
           end
 
