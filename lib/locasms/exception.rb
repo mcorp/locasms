@@ -12,7 +12,7 @@ module LocaSMS
       super data[:message] || default_message
     end
 
-  private
+    private
 
     def default_message
       nil
