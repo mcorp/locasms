@@ -97,7 +97,7 @@ module LocaSMS
           }
         end
       rescue StandardError
-        raise Exception, 'Invalid delivery response data'
+        raise LocaSMS::Exception, 'Invalid delivery response data'
       end
     end
 

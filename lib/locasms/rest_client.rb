@@ -87,7 +87,7 @@ module LocaSMS
 
       raise InvalidLogin.new(action: action) if j['msg'] =~ /^falha ao realizar login$/i
 
-      raise Exception.new(message: j['msg'], raw: response, action: action)
+      raise LocaSMS::Exception.new(message: j['msg'], raw: response, action: action)
     end
   end
 end
