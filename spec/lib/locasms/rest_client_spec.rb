@@ -17,6 +17,7 @@ describe LocaSMS::RestClient do
   describe '#get' do
     let(:action) { 'sendsms' }
     let(:body) { '{"status":1,"data":28,"msg":null}' }
+
     subject { LocaSMS::RestClient.new(action, params) }
 
     it 'Performs get request to url with parameters' do
@@ -36,6 +37,7 @@ describe LocaSMS::RestClient do
 
     context 'callback nil' do
       let(:callback) { nil }
+
       it 'should not be in params' do
         expect(subject.params_for(:action)).to eq({ action: :action, lgn: 'LOGIN', pwd: 'PASSWORD' })
       end
@@ -50,19 +52,27 @@ describe LocaSMS::RestClient do
     end
 
     it 'Should raise exception on a failed response' do
-      expect { subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA EPICA"}') }.to raise_error(LocaSMS::Exception, 'FALHA EPICA')
+      response = '{"status":0,"data":null,"msg":"FALHA EPICA"}'
+
+      expect { subject.parse_response(:action, response) }.to raise_error(LocaSMS::Exception, 'FALHA EPICA')
     end
 
     it 'Should raise exception on a failed login attempt' do
-      expect { subject.parse_response(:action, '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}') }.to raise_error(LocaSMS::InvalidLogin)
+      response = '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}'
+
+      expect { subject.parse_response(:action, response) }.to raise_error(LocaSMS::InvalidLogin)
     end
 
     it 'Should return the non-json value as a json' do
-      expect(subject.parse_response(:action, 'non-json return')).to eq({ 'status' => 1, 'data' => 'non-json return', 'msg' => nil })
+      response = { 'status' => 1, 'data' => 'non-json return', 'msg' => nil }
+
+      expect(subject.parse_response(:action, 'non-json return')).to eq(response)
     end
 
     it 'Should return a parsed json return' do
-      expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq({ 'status' => 1, 'data' => 28, 'msg' => nil })
+      response = { 'status' => 1, 'data' => 28, 'msg' => nil }
+
+      expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq(response)
     end
   end
 end

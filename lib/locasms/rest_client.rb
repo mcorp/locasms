@@ -5,7 +5,8 @@ require 'net/http'
 
 module LocaSMS
   # Class that handle http calls to LocaSMS api
-  # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio List of avaiable services
+  # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio
+  #   List of avaiable services
   class RestClient
     attr_accessor :base_url, :base_params
 
@@ -36,7 +37,8 @@ module LocaSMS
     #     client.get :holdsms, id: 345678
     #     # => {"status"=>1,"data"=>nil,"msg"=>"SUCESSO"}
     #
-    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
+    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis
+    #   List of avaiable actions
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
     def get(action, params = {})
@@ -60,7 +62,8 @@ module LocaSMS
     #    client.params_for :ACTION, a: 1, b: 2
     #    # => { action: :ACTION, lgn: 'LOGIN', pwd: 'PASSWORD', a: 1, b: 2 }
     #
-    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
+    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis
+    #   List of avaiable actions
     def params_for(action, params = {})
       { action: action }.merge(base_params).merge(params).select { |_k, v| v }
     end

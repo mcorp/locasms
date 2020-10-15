@@ -66,7 +66,10 @@ module LocaSMS
 
     # Gets the current status of the given campaign
     # @param [String] id campaign id
-    # @return [Array<Hash>] {campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time, delivery_time: delivery_time, status: status, carrier: carrier, mobile_number: mobile_number, message: message }
+    # @return [Array<Hash>]
+    #   { campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time,
+    #   delivery_time: delivery_time, status: status, carrier: carrier,
+    #   mobile_number: mobile_number, message: message }
     def campaign_status(id)
       response = rest.get(:getstatus, id: id)
       begin
