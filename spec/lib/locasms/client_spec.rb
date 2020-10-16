@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe LocaSMS::Client do
-  let(:rest_client) { 'rest_client mock' }
+  let(:rest_client) { double :rest_client }
   subject { LocaSMS::Client.new :login, :password, rest_client: rest_client, callback: nil }
 
   describe '::ENDPOINT' do
@@ -33,12 +35,12 @@ describe LocaSMS::Client do
     it 'Should send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_return('XXX')
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: nil)
         .and_return({})
 
       subject.deliver 'given message', :a, :b, :c
@@ -47,7 +49,7 @@ describe LocaSMS::Client do
     it 'Should not send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_raise(LocaSMS::Exception)
 
       expect(rest_client).to receive(:get).never
@@ -60,12 +62,12 @@ describe LocaSMS::Client do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
-            .with([:a, :b, :c])
+            .with(%i[a b c])
             .and_return('XXX')
 
           expect(rest_client).to receive(:get)
             .once
-            .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'something')
+            .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'something')
             .and_return({})
 
           subject.deliver 'given message', :a, :b, :c, url_callback: 'something'
@@ -77,12 +79,12 @@ describe LocaSMS::Client do
 
         expect(client).to receive(:numbers)
           .once
-          .with([:a, :b, :c])
+          .with(%i[a b c])
           .and_return('XXX')
 
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers:'XXX', url_callback: 'default')
+          .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'default')
           .and_return({})
 
         client.deliver 'given message', :a, :b, :c
@@ -94,7 +96,7 @@ describe LocaSMS::Client do
     it 'Should send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_return('XXX')
 
       expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -104,7 +106,7 @@ describe LocaSMS::Client do
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
         .and_return({})
 
       subject.deliver_at 'given message', :datetime, :a, :b, :c
@@ -113,7 +115,7 @@ describe LocaSMS::Client do
     it 'Should not send SMS' do
       expect(subject).to receive(:numbers)
         .once
-        .with([:a, :b, :c])
+        .with(%i[a b c])
         .and_raise(LocaSMS::Exception)
 
       expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -121,7 +123,7 @@ describe LocaSMS::Client do
         .with(:datetime)
         .and_return(%w[date time])
 
-      expect(rest_client).to receive(:get).never
+      expect(rest_client).not_to receive(:get)
 
       expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
     end
@@ -131,7 +133,7 @@ describe LocaSMS::Client do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
-            .with([:a, :b, :c])
+            .with(%i[a b c])
             .and_return('XXX')
 
           expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -141,7 +143,12 @@ describe LocaSMS::Client do
 
           expect(rest_client).to receive(:get)
             .once
-            .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'something')
+            .with(:sendsms,
+                  msg: 'given message',
+                  numbers: 'XXX',
+                  jobdate: 'date',
+                  jobtime: 'time',
+                  url_callback: 'something')
             .and_return({})
 
           subject.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
@@ -153,7 +160,7 @@ describe LocaSMS::Client do
 
         expect(client).to receive(:numbers)
           .once
-          .with([:a, :b, :c])
+          .with(%i[a b c])
           .and_return('XXX')
 
         expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
@@ -163,7 +170,12 @@ describe LocaSMS::Client do
 
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers:'XXX', jobdate: 'date', jobtime: 'time', url_callback: 'default')
+          .with(:sendsms,
+                msg: 'given message',
+                numbers: 'XXX',
+                jobdate: 'date',
+                jobtime: 'time',
+                url_callback: 'default')
           .and_return({})
 
         client.deliver_at 'given message', :datetime, :a, :b, :c
@@ -198,11 +210,10 @@ describe LocaSMS::Client do
       subject.send method, '12345'
     end
 
-    it{ check_for :campaign_status  }
-    it{ check_for :campaign_hold    }
-    it{ check_for :campaign_release }
+    it { check_for :campaign_status  }
+    it { check_for :campaign_hold    }
+    it { check_for :campaign_release }
 
     it 'Should have tests to cover campaign_status csv result'
   end
-
 end

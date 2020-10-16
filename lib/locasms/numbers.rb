@@ -1,5 +1,6 @@
-module LocaSMS
+# frozen_string_literal: true
 
+module LocaSMS
   # Class that sanitizes and validates a list of mobile's numbers
   class Numbers
     attr_reader :good, :bad
@@ -9,15 +10,16 @@ module LocaSMS
     # @see #normalize
     # @see #evaluate
     def initialize(*numbers)
-      evaluated   = evaluate(numbers)
-      @good, @bad = evaluated[:good], evaluated[:bad]
+      evaluated = evaluate(numbers)
+      @good = evaluated[:good]
+      @bad = evaluated[:bad]
     end
 
     # Checks if there are bad numbers
     # @return [TrueClass, FalseClass] true if there are bad numbers
     # @see #valid_number?
     def bad?
-      not bad.empty?
+      !bad.empty?
     end
 
     # Clears all non digits from a mobile's number and converts into a normalized array
@@ -34,17 +36,19 @@ module LocaSMS
     #     numbers.normalize '8888-9999', ['AA', '6666-9999', '7777-0000'], '3333-4444,555-9999'
     #     # => ['88889999','AA','66669999','77770000','33334444','5559999']
     def normalize(*numbers)
-      numbers = numbers.join(',')
+      numbers
+        .join(',')
         .split(',')
-        .map{|number| number.gsub(/[^0-9a-zA-Z]/, '') }
-        .delete_if{|number| number.empty? }
+        .map { |number| number.gsub(/[^0-9a-zA-Z]/, '') }
+        .delete_if(&:empty?)
     end
 
     # Validates if a mobile's number has only digits
     # @param [String] number given number to be validated
     # @return [TrueClass, FalseClass] true if the number is valid
     def valid_number?(number)
-      return false if number.nil? or number =~ /[^0-9a-zA-Z]/
+      return false if number.nil? || number =~ (/[^0-9a-zA-Z]/)
+
       [10, 11].include? number.size
     end
 
@@ -63,10 +67,9 @@ module LocaSMS
     #     Numbers.new.evaluate('4199998888','11777770000','5551212')
     #     #=> {good: ['4199998888','11777770000'], bad: ['5551212']}
     def evaluate(*numbers)
-      normalize(numbers).reduce({good: [], bad: []}) do |hash, number|
+      normalize(numbers).each_with_object({ good: [], bad: [] }) do |number, hash|
         bucket = valid_number?(number) ? :good : :bad
         hash[bucket] << number
-        hash
       end
     end
 
@@ -76,5 +79,4 @@ module LocaSMS
       (good || []).join(',')
     end
   end
-
 end

@@ -1,17 +1,19 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'net/http'
 
 module LocaSMS
-
   # Class that handle http calls to LocaSMS api
-  # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio List of avaiable services
+  # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio
+  #   List of avaiable services
   class RestClient
     attr_accessor :base_url, :base_params
 
     # Creates a new instance of the RestClient class
     # @param [String] base_url a well formed url
     # @param [Hash] base_params base params to send on every call
-    def initialize(base_url, base_params={})
+    def initialize(base_url, base_params = {})
       @base_url    = base_url
       @base_params = base_params
     end
@@ -35,11 +37,12 @@ module LocaSMS
     #     client.get :holdsms, id: 345678
     #     # => {"status"=>1,"data"=>nil,"msg"=>"SUCESSO"}
     #
-    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
+    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis
+    #   List of avaiable actions
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
-    def get(action, params={})
-      params   = params_for action, params
+    def get(action, params = {})
+      params = params_for action, params
 
       uri = URI.parse(base_url)
       uri.query = URI.encode_www_form(params)
@@ -59,9 +62,10 @@ module LocaSMS
     #    client.params_for :ACTION, a: 1, b: 2
     #    # => { action: :ACTION, lgn: 'LOGIN', pwd: 'PASSWORD', a: 1, b: 2 }
     #
-    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis List of avaiable actions
-    def params_for(action, params={})
-      { action: action }.merge(base_params).merge(params).select {|k, v| v }
+    # @see https://github.com/mcorp/locasms/wiki/A-API-de-envio#lista-das-a%C3%A7%C3%B5es-dispon%C3%ADveis
+    #   List of avaiable actions
+    def params_for(action, params = {})
+      { action: action }.merge(base_params).merge(params).select { |_k, v| v }
     end
 
     # Parses a result trying to get it in json
@@ -73,13 +77,17 @@ module LocaSMS
     def parse_response(action, response)
       raise InvalidOperation.new(action: action) if response =~ /^0:OPERACAO INVALIDA$/i
 
-      j = MultiJson.load(response) rescue { 'status' => 1, 'data' => response, 'msg' => nil }
+      j = begin
+        MultiJson.load(response)
+      rescue StandardError
+        { 'status' => 1, 'data' => response, 'msg' => nil }
+      end
 
-      return j if j['status'] == 1 or action == :getstatus
+      return j if (j['status'] == 1) || (action == :getstatus)
 
       raise InvalidLogin.new(action: action) if j['msg'] =~ /^falha ao realizar login$/i
-      raise Exception.new(message: j['msg'], raw: response, action: action)
+
+      raise LocaSMS::Exception.new(message: j['msg'], raw: response, action: action)
     end
   end
-
 end

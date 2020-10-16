@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'bundler'
 
@@ -14,4 +16,4 @@ task :console do
   sh 'bundle exec irb -rubygems -I lib -r locasms.rb'
 end
 
-task :default => (ENV['TRAVIS'] ? :spec : :console)
+task default: (ENV['TRAVIS'] ? :spec : :console)

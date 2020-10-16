@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe LocaSMS::Helpers::DateTimeHelper do
@@ -31,9 +33,9 @@ describe LocaSMS::Helpers::DateTimeHelper do
     end
 
     it { try_for DateTime.parse('1977-03-14 14:12:00') }
-    it { try_for Time.parse('1977-03-14 14:12:00')     }
-    it { try_for '1977-03-14 14:12:00'                 }
-    it { try_for 227207520                             }
+    it { try_for Time.parse('1977-03-14 14:12:00') }
+    it { try_for '1977-03-14 14:12:00' }
+    it { try_for 227_207_520 }
   end
 
   describe '.split' do
@@ -43,8 +45,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
         .with(:datetime)
         .and_return(Time.parse('1977-03-14 14:12:00'))
 
-      expect(subject.split(:datetime)).to eq(%w(14/03/1977 14:12))
+      expect(subject.split(:datetime)).to eq(%w[14/03/1977 14:12])
     end
   end
-
 end

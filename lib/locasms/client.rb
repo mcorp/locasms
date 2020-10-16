@@ -1,13 +1,14 @@
-module LocaSMS
+# frozen_string_literal: true
 
+module LocaSMS
   # Client to interact with LocaSMS API
   class Client
     # Default API "domain"
-    DOMAIN = 'app.locasms.com.br'.freeze
+    DOMAIN = 'app.locasms.com.br'
 
     # Default API address
     ENDPOINT = {
-      default:   "http://#{DOMAIN}/painel/api.ashx",
+      default: "http://#{DOMAIN}/painel/api.ashx",
       shortcode: "http://#{DOMAIN}/shortcode/api.ashx"
     }.freeze
 
@@ -17,7 +18,7 @@ module LocaSMS
     # @param [String] password access password
     # @param [Hash] opts
     # @option opts :rest_client (RestClient) client to be used to handle http requests
-    def initialize(login, password, opts={})
+    def initialize(login, password, opts = {})
       @login    = login
       @password = password
       @type     = opts[:type] || :default
@@ -65,20 +66,24 @@ module LocaSMS
 
     # Gets the current status of the given campaign
     # @param [String] id campaign id
-    # @return [Array<Hash>] {campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time, delivery_time: delivery_time, status: status, carrier: carrier, mobile_number: mobile_number, message: message }
+    # @return [Array<Hash>]
+    #   { campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time,
+    #   delivery_time: delivery_time, status: status, carrier: carrier,
+    #   mobile_number: mobile_number, message: message }
     def campaign_status(id)
       response = rest.get(:getstatus, id: id)
       begin
         CSV.new(response['data'] || '', col_sep: ';', quote_char: '"').map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
-          status = if status =~ /aguardando envio/i
-            :waiting
-          elsif status =~ /sucesso/i
-            :success
-          elsif status =~ /numero invalido|nao cadastrado/i
-            :invalid
-          else
-            :unknown
-          end
+          status = case status
+                   when /aguardando envio/i
+                     waiting
+                   when /sucesso/i
+                     success
+                   when /numero invalido|nao cadastrado/i
+                     invalid
+                   else
+                     unknown
+                   end
 
           {
             campaign_id: id,
@@ -91,8 +96,8 @@ module LocaSMS
             message: message
           }
         end
-      rescue
-        raise Exception.new 'Invalid delivery response data'
+      rescue StandardError
+        raise LocaSMS::Exception, 'Invalid delivery response data'
       end
     end
 
