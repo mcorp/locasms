@@ -8,7 +8,7 @@ describe LocaSMS::RestClient do
 
   describe '.initialize' do
     context 'When giving proper initialization parameters' do
-      subject { LocaSMS::RestClient.new :url, :params }
+      subject { described_class.new :url, :params }
       it { expect(subject.base_url).to be(:url) }
       it { expect(subject.base_params).to be(:params) }
     end
@@ -18,7 +18,7 @@ describe LocaSMS::RestClient do
     let(:action) { 'sendsms' }
     let(:body) { '{"status":1,"data":28,"msg":null}' }
 
-    subject { LocaSMS::RestClient.new(action, params) }
+    subject { described_class.new(action, params) }
 
     it 'Performs get request to url with parameters' do
       expect(Net::HTTP)
@@ -30,7 +30,7 @@ describe LocaSMS::RestClient do
   end
 
   describe '#params_for' do
-    subject { LocaSMS::RestClient.new :url, params }
+    subject { described_class.new :url, params }
 
     it { expect(subject.params_for(:action)).to eq({ action: :action }.merge(params)) }
     it { expect(subject.params_for(:action, p1: 10)).to eq({ action: :action, p1: 10 }.merge(params)) }
@@ -45,7 +45,7 @@ describe LocaSMS::RestClient do
   end
 
   describe '#parse_response' do
-    subject { LocaSMS::RestClient.new :url, :params }
+    subject { described_class.new :url, :params }
 
     it 'Should raise exception on invalid operation' do
       expect { subject.parse_response(:action, '0:OPERACAO INVALIDA') }.to raise_error(LocaSMS::InvalidOperation)

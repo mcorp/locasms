@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe LocaSMS::Helpers::DateTimeHelper do
-  subject { LocaSMS::Helpers::DateTimeHelper }
+  subject { described_class }
 
   describe '#parse' do
     it 'Should call the class method' do

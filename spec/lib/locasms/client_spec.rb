@@ -4,23 +4,23 @@ require 'spec_helper'
 
 describe LocaSMS::Client do
   let(:rest_client) { double :rest_client }
-  subject { LocaSMS::Client.new :login, :password, rest_client: rest_client, callback: nil }
+  subject { described_class.new :login, :password, rest_client: rest_client, callback: nil }
 
   describe '::ENDPOINT' do
-    let(:domain) { LocaSMS::Client::DOMAIN }
+    let(:domain) { described_class::DOMAIN }
 
     context 'When default' do
       it 'Should return the default URL' do
-        endpoint = LocaSMS::Client::ENDPOINT[subject.type]
+        endpoint = described_class::ENDPOINT[subject.type]
         expect(endpoint).to eq("http://#{domain}/painel/api.ashx")
       end
     end
 
     context 'When shortcode' do
-      subject { LocaSMS::Client.new :login, :password, type: :shortcode }
+      subject { described_class.new :login, :password, type: :shortcode }
 
       it 'Should return the short code URL' do
-        endpoint = LocaSMS::Client::ENDPOINT[subject.type]
+        endpoint = described_class::ENDPOINT[subject.type]
         expect(endpoint).to eq("http://#{domain}/shortcode/api.ashx")
       end
     end
@@ -75,7 +75,7 @@ describe LocaSMS::Client do
       end
 
       it 'uses default callback' do
-        client = LocaSMS::Client.new :login, :password, rest_client: rest_client, url_callback: 'default'
+        client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
         expect(client).to receive(:numbers)
           .once
@@ -156,7 +156,7 @@ describe LocaSMS::Client do
       end
 
       it 'uses default callback' do
-        client = LocaSMS::Client.new :login, :password, rest_client: rest_client, url_callback: 'default'
+        client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
         expect(client).to receive(:numbers)
           .once

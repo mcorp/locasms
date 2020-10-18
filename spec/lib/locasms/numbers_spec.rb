@@ -3,16 +3,16 @@
 require 'spec_helper'
 
 describe LocaSMS::Numbers do
-  subject { LocaSMS::Numbers.new }
+  subject { described_class.new }
 
   describe '.initialize' do
     subject do
-      expect_any_instance_of(LocaSMS::Numbers)
+      expect_any_instance_of(described_class)
         .to receive(:evaluate)
         .once
         .with([:numbers])
         .and_return(good: [1, 3], bad: [2, 4])
-      LocaSMS::Numbers.new :numbers
+      described_class.new :numbers
     end
 
     it { expect(subject.good).to eq([1, 3]) }
