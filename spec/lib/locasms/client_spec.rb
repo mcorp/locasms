@@ -4,6 +4,7 @@ require 'spec_helper'
 
 describe LocaSMS::Client do
   subject { described_class.new :login, :password, rest_client: rest_client, callback: nil }
+
   let(:rest_client) { double :rest_client }
 
   describe '::ENDPOINT' do

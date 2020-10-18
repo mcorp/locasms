@@ -17,6 +17,7 @@ describe LocaSMS::RestClient do
 
   describe '#get' do
     subject { described_class.new(action, params) }
+
     let(:action) { 'sendsms' }
     let(:body) { '{"status":1,"data":28,"msg":null}' }
 
