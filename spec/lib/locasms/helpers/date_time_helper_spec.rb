@@ -40,7 +40,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
 
   describe '.split' do
     it 'breaks a date into date and time' do
-      expect(subject).to receive(:parse)
+      allow(subject).to receive(:parse)
         .once
         .with(:datetime)
         .and_return(Time.parse('1977-03-14 14:12:00'))

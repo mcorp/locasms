@@ -33,7 +33,7 @@ describe LocaSMS::Client do
 
   describe '#deliver' do
     it 'sends SMS' do
-      expect(subject).to receive(:numbers)
+      allow(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
         .and_return('XXX')
@@ -46,21 +46,29 @@ describe LocaSMS::Client do
       subject.deliver 'given message', :a, :b, :c
     end
 
-    it 'does not send SMS' do
-      expect(subject).to receive(:numbers)
-        .once
-        .with(%i[a b c])
-        .and_raise(LocaSMS::Exception)
+    context 'when receive an error' do
+      let(:wrong_deliver) { -> { subject.deliver('given message', :a, :b, :c) } }
 
-      expect(rest_client).to receive(:get).never
+      before do
+        allow(subject).to receive(:numbers)
+          .once
+          .with(%i[a b c])
+          .and_raise(LocaSMS::Exception)
+      end
 
-      expect { subject.deliver('given message', :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+      it { expect(wrong_deliver).to raise_error(LocaSMS::Exception) }
+
+      it 'does not send SMS' do
+        expect(rest_client).to receive(:get).never
+
+        wrong_deliver
+      end
     end
 
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          expect(subject).to receive(:numbers)
+          allow(subject).to receive(:numbers)
             .once
             .with(%i[a b c])
             .and_return('XXX')
@@ -77,7 +85,7 @@ describe LocaSMS::Client do
       it 'uses default callback' do
         client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
-        expect(client).to receive(:numbers)
+        allow(client).to receive(:numbers)
           .once
           .with(%i[a b c])
           .and_return('XXX')
@@ -94,12 +102,12 @@ describe LocaSMS::Client do
 
   describe '#deliver_at' do
     it 'sends SMS' do
-      expect(subject).to receive(:numbers)
+      allow(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
         .and_return('XXX')
 
-      expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+      allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
         .once
         .with(:datetime)
         .and_return(%w[date time])
@@ -112,31 +120,39 @@ describe LocaSMS::Client do
       subject.deliver_at 'given message', :datetime, :a, :b, :c
     end
 
-    it 'does not send SMS' do
-      expect(subject).to receive(:numbers)
-        .once
-        .with(%i[a b c])
-        .and_raise(LocaSMS::Exception)
+    context 'when receive an error' do
+      let(:wrong_deliver_at) { -> { subject.deliver_at('given message', :datetime, :a, :b, :c) } }
 
-      expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
-        .once
-        .with(:datetime)
-        .and_return(%w[date time])
+      before do
+        allow(subject).to receive(:numbers)
+          .once
+          .with(%i[a b c])
+          .and_raise(LocaSMS::Exception)
 
-      expect(rest_client).not_to receive(:get)
+        allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+          .once
+          .with(:datetime)
+          .and_return(%w[date time])
+      end
 
-      expect { subject.deliver_at('given message', :datetime, :a, :b, :c) }.to raise_error(LocaSMS::Exception)
+      it { expect(wrong_deliver_at).to raise_error(LocaSMS::Exception) }
+
+      it 'does not send SMS' do
+        expect(rest_client).not_to receive(:get)
+
+        wrong_deliver_at
+      end
     end
 
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          expect(subject).to receive(:numbers)
+          allow(subject).to receive(:numbers)
             .once
             .with(%i[a b c])
             .and_return('XXX')
 
-          expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+          allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
             .once
             .with(:datetime)
             .and_return(%w[date time])
@@ -158,12 +174,12 @@ describe LocaSMS::Client do
       it 'uses default callback' do
         client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
-        expect(client).to receive(:numbers)
+        allow(client).to receive(:numbers)
           .once
           .with(%i[a b c])
           .and_return('XXX')
 
-        expect(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+        allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
           .once
           .with(:datetime)
           .and_return(%w[date time])
