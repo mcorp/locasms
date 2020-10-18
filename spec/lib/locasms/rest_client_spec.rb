@@ -16,10 +16,9 @@ describe LocaSMS::RestClient do
   end
 
   describe '#get' do
+    subject { described_class.new(action, params) }
     let(:action) { 'sendsms' }
     let(:body) { '{"status":1,"data":28,"msg":null}' }
-
-    subject { described_class.new(action, params) }
 
     it 'Performs get request to url with parameters' do
       expect(Net::HTTP)
