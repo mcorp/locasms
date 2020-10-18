@@ -9,6 +9,7 @@ describe LocaSMS::RestClient do
   describe '.initialize' do
     context 'when giving proper initialization parameters' do
       subject { described_class.new :url, :params }
+
       it { expect(subject.base_url).to be(:url) }
       it { expect(subject.base_params).to be(:params) }
     end
