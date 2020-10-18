@@ -10,7 +10,7 @@ describe LocaSMS::Client do
     let(:domain) { described_class::DOMAIN }
 
     context 'When default' do
-      it 'Should return the default URL' do
+      it 'returns the default URL' do
         endpoint = described_class::ENDPOINT[subject.type]
         expect(endpoint).to eq("http://#{domain}/painel/api.ashx")
       end
@@ -19,7 +19,7 @@ describe LocaSMS::Client do
     context 'When shortcode' do
       subject { described_class.new :login, :password, type: :shortcode }
 
-      it 'Should return the short code URL' do
+      it 'returns the short code URL' do
         endpoint = described_class::ENDPOINT[subject.type]
         expect(endpoint).to eq("http://#{domain}/shortcode/api.ashx")
       end
@@ -32,7 +32,7 @@ describe LocaSMS::Client do
   end
 
   describe '#deliver' do
-    it 'Should send SMS' do
+    it 'sends SMS' do
       expect(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
@@ -46,7 +46,7 @@ describe LocaSMS::Client do
       subject.deliver 'given message', :a, :b, :c
     end
 
-    it 'Should not send SMS' do
+    it 'does not send SMS' do
       expect(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
@@ -93,7 +93,7 @@ describe LocaSMS::Client do
   end
 
   describe '#deliver_at' do
-    it 'Should send SMS' do
+    it 'sends SMS' do
       expect(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
@@ -112,7 +112,7 @@ describe LocaSMS::Client do
       subject.deliver_at 'given message', :datetime, :a, :b, :c
     end
 
-    it 'Should not send SMS' do
+    it 'does not send SMS' do
       expect(subject).to receive(:numbers)
         .once
         .with(%i[a b c])
@@ -184,7 +184,7 @@ describe LocaSMS::Client do
   end
 
   describe '#balance' do
-    it 'Should check param assignment' do
+    it 'checks param assignment' do
       expect(rest_client).to receive(:get)
         .once
         .with(:getbalance)

@@ -62,7 +62,7 @@ describe LocaSMS::Numbers do
   end
 
   describe '#evaluate' do
-    it 'Should separate numbers in good and bad' do
+    it 'separates numbers in good and bad' do
       expect(subject).to receive(:normalize)
         .once
         .with([:numbers])
@@ -93,11 +93,11 @@ describe LocaSMS::Numbers do
   end
 
   describe '#to_s' do
-    it 'Should return and empty string' do
+    it 'returns and empty string' do
       expect(subject.to_s).to eq('')
     end
 
-    it 'Should return all good numbers in a string comma separated' do
+    it 'returns all good numbers in a string comma separated' do
       expect(subject).to receive(:good)
         .once
         .and_return([1, 2, 3, 4])

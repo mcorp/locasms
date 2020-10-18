@@ -6,7 +6,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
   subject { described_class }
 
   describe '#parse' do
-    it 'Should call the class method' do
+    it 'calls the class method' do
       expect(subject).to receive(:parse)
         .once
         .with(:value)
@@ -16,7 +16,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
   end
 
   describe '#split' do
-    it 'Should call the class method' do
+    it 'calls the class method' do
       expect(subject).to receive(:split)
         .once
         .with(:value)
@@ -39,7 +39,7 @@ describe LocaSMS::Helpers::DateTimeHelper do
   end
 
   describe '.split' do
-    it 'Should break a date into date and time' do
+    it 'breaks a date into date and time' do
       expect(subject).to receive(:parse)
         .once
         .with(:datetime)

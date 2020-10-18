@@ -38,7 +38,7 @@ describe LocaSMS::RestClient do
     context 'callback nil' do
       let(:callback) { nil }
 
-      it 'should not be in params' do
+      it 'is not in params' do
         expect(subject.params_for(:action)).to eq({ action: :action, lgn: 'LOGIN', pwd: 'PASSWORD' })
       end
     end
@@ -47,29 +47,29 @@ describe LocaSMS::RestClient do
   describe '#parse_response' do
     subject { described_class.new :url, :params }
 
-    it 'Should raise exception on invalid operation' do
+    it 'raises exception on invalid operation' do
       expect { subject.parse_response(:action, '0:OPERACAO INVALIDA') }.to raise_error(LocaSMS::InvalidOperation)
     end
 
-    it 'Should raise exception on a failed response' do
+    it 'raises exception on a failed response' do
       response = '{"status":0,"data":null,"msg":"FALHA EPICA"}'
 
       expect { subject.parse_response(:action, response) }.to raise_error(LocaSMS::Exception, 'FALHA EPICA')
     end
 
-    it 'Should raise exception on a failed login attempt' do
+    it 'raises exception on a failed login attempt' do
       response = '{"status":0,"data":null,"msg":"FALHA AO REALIZAR LOGIN"}'
 
       expect { subject.parse_response(:action, response) }.to raise_error(LocaSMS::InvalidLogin)
     end
 
-    it 'Should return the non-json value as a json' do
+    it 'returns the non-json value as a json' do
       response = { 'status' => 1, 'data' => 'non-json return', 'msg' => nil }
 
       expect(subject.parse_response(:action, 'non-json return')).to eq(response)
     end
 
-    it 'Should return a parsed json return' do
+    it 'returns a parsed json return' do
       response = { 'status' => 1, 'data' => 28, 'msg' => nil }
 
       expect(subject.parse_response(:action, '{"status":1,"data":28,"msg":null}')).to eq(response)
