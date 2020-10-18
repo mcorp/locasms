@@ -25,26 +25,31 @@ describe LocaSMS::Numbers do
         eq(%w[551188889999])
       )
     end
+
     it do
       expect(subject.normalize('55', %w[11 22])).to(
         eq(%w[55 11 22])
       )
     end
+
     it do
       expect(subject.normalize(%w[55 ZZ 22])).to(
         eq(%w[55 ZZ 22])
       )
     end
+
     it do
       expect(subject.normalize('55,44,33', ['ZZ', '22,11'])).to(
         eq(%w[55 44 33 ZZ 22 11])
       )
     end
+
     it do
       expect(subject.normalize(55, [11, 22])).to(
         eq(%w[55 11 22])
       )
     end
+
     it { expect(subject.normalize('Z')).to eq(['Z']) }
     it { expect(subject.normalize(nil)).to eq([]) }
   end
@@ -86,6 +91,7 @@ describe LocaSMS::Numbers do
       expect(subject).to receive(:bad).once.and_return([])
       expect(subject.bad?).to be_falsey
     end
+
     it do
       expect(subject).to receive(:bad).once.and_return([1])
       expect(subject.bad?).to be_truthy
