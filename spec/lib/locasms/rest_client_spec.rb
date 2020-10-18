@@ -7,7 +7,7 @@ describe LocaSMS::RestClient do
   let(:params) { { lgn: 'LOGIN', pwd: 'PASSWORD', url_callback: callback } }
 
   describe '.initialize' do
-    context 'When giving proper initialization parameters' do
+    context 'when giving proper initialization parameters' do
       subject { described_class.new :url, :params }
       it { expect(subject.base_url).to be(:url) }
       it { expect(subject.base_params).to be(:params) }
@@ -35,7 +35,7 @@ describe LocaSMS::RestClient do
     it { expect(subject.params_for(:action)).to eq({ action: :action }.merge(params)) }
     it { expect(subject.params_for(:action, p1: 10)).to eq({ action: :action, p1: 10 }.merge(params)) }
 
-    context 'callback nil' do
+    context 'when callback is nil' do
       let(:callback) { nil }
 
       it 'is not in params' do

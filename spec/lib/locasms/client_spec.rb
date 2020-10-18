@@ -9,14 +9,14 @@ describe LocaSMS::Client do
   describe '::ENDPOINT' do
     let(:domain) { described_class::DOMAIN }
 
-    context 'When default' do
+    context 'when default' do
       it 'returns the default URL' do
         endpoint = described_class::ENDPOINT[subject.type]
         expect(endpoint).to eq("http://#{domain}/painel/api.ashx")
       end
     end
 
-    context 'When shortcode' do
+    context 'when shortcode' do
       subject { described_class.new :login, :password, type: :shortcode }
 
       it 'returns the short code URL' do
@@ -58,7 +58,7 @@ describe LocaSMS::Client do
     end
 
     context 'with callback option' do
-      context 'callback given as arg to #deliver' do
+      context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
@@ -129,7 +129,7 @@ describe LocaSMS::Client do
     end
 
     context 'with callback option' do
-      context 'callback given as arg to #deliver' do
+      context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
           expect(subject).to receive(:numbers)
             .once
@@ -194,7 +194,7 @@ describe LocaSMS::Client do
     end
   end
 
-  context 'Testing all campaign based methods' do
+  context 'when receive all campaign based methods' do
     def check_for(method)
       rest_method = {
         campaign_status: :getstatus,
@@ -214,6 +214,6 @@ describe LocaSMS::Client do
     it { check_for :campaign_hold    }
     it { check_for :campaign_release }
 
-    it 'Should have tests to cover campaign_status csv result'
+    it 'has tests to cover campaign_status csv result'
   end
 end
