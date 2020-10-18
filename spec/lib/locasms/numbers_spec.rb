@@ -55,15 +55,15 @@ describe LocaSMS::Numbers do
   end
 
   describe '#valid_number?' do
-    it { expect(subject.valid_number?('+55 (11) 8888-9999')).to be_falsey }
-    it { expect(subject.valid_number?('88889999')).to be_falsey }
-    it { expect(subject.valid_number?('988889999')).to be_falsey }
-    it { expect(subject.valid_number?('ABC')).to be_falsey }
-    it { expect(subject.valid_number?('')).to be_falsey }
-    it { expect(subject.valid_number?(nil)).to be_falsey }
+    it { expect(subject).not_to be_valid_number('+55 (11) 8888-9999') }
+    it { expect(subject).not_to be_valid_number('88889999') }
+    it { expect(subject).not_to be_valid_number('988889999') }
+    it { expect(subject).not_to be_valid_number('ABC') }
+    it { expect(subject).not_to be_valid_number('') }
+    it { expect(subject).not_to be_valid_number(nil) }
 
-    it { expect(subject.valid_number?('1188889999')).to be_truthy }
-    it { expect(subject.valid_number?('11988889999')).to be_truthy }
+    it { expect(subject).to be_valid_number('1188889999') }
+    it { expect(subject).to be_valid_number('11988889999') }
   end
 
   describe '#evaluate' do
@@ -89,12 +89,12 @@ describe LocaSMS::Numbers do
   describe '#bad?' do
     it 'when bad is empty' do
       allow(subject).to receive(:bad).once.and_return([])
-      expect(subject.bad?).to be_falsey
+      expect(subject).not_to be_bad
     end
 
     it 'when bad has items' do
       allow(subject).to receive(:bad).once.and_return([1])
-      expect(subject.bad?).to be_truthy
+      expect(subject).to be_bad
     end
   end
 
