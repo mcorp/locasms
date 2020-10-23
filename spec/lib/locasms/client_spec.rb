@@ -34,28 +34,16 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
 
   describe '#deliver' do
     it 'sends SMS' do
-      allow(client).to receive(:numbers)
-        .once
-        .with(%i[a b c])
-        .and_return('XXX')
-
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: nil)
         .and_return({})
 
-      client.deliver 'given message', :a, :b, :c
+      client.deliver 'given message', '11988889991', '11988889992', '11988889993'
     end
 
     context 'when receive an error' do
-      let(:wrong_deliver) { -> { client.deliver('given message', :a, :b, :c) } }
-
-      before do
-        allow(client).to receive(:numbers)
-          .once
-          .with(%i[a b c])
-          .and_raise(LocaSMS::Exception)
-      end
+      let(:wrong_deliver) { -> { client.deliver('given message', '1', '2', '3') } }
 
       it { expect(wrong_deliver).to raise_error(LocaSMS::Exception) }
 
@@ -69,45 +57,30 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          allow(client).to receive(:numbers)
-            .once
-            .with(%i[a b c])
-            .and_return('XXX')
-
           expect(rest_client).to receive(:get)
             .once
-            .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'something')
+            .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'something')
             .and_return({})
 
-          client.deliver 'given message', :a, :b, :c, url_callback: 'something'
+          client.deliver 'given message', '11988889991', '11988889992', '11988889993', url_callback: 'something'
         end
       end
 
       it 'uses default callback' do
         client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
-        allow(client).to receive(:numbers)
-          .once
-          .with(%i[a b c])
-          .and_return('XXX')
-
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'default')
+          .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'default')
           .and_return({})
 
-        client.deliver 'given message', :a, :b, :c
+        client.deliver 'given message', '11988889991', '11988889992', '11988889993'
       end
     end
   end
 
   describe '#deliver_at' do
     it 'sends SMS' do
-      allow(client).to receive(:numbers)
-        .once
-        .with(%i[a b c])
-        .and_return('XXX')
-
       allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
         .once
         .with(:datetime)
@@ -115,21 +88,16 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
 
       expect(rest_client).to receive(:get)
         .once
-        .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
+        .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', jobdate: 'date', jobtime: 'time', url_callback: nil)
         .and_return({})
 
-      client.deliver_at 'given message', :datetime, :a, :b, :c
+      client.deliver_at 'given message', :datetime, '11988889991', '11988889992', '11988889993'
     end
 
     context 'when receive an error' do
-      let(:wrong_deliver_at) { -> { client.deliver_at('given message', :datetime, :a, :b, :c) } }
+      let(:wrong_deliver_at) { -> { client.deliver_at('given message', :datetime, '1', '2', '3') } }
 
       before do
-        allow(client).to receive(:numbers)
-          .once
-          .with(%i[a b c])
-          .and_raise(LocaSMS::Exception)
-
         allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
           .once
           .with(:datetime)
@@ -148,11 +116,6 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          allow(client).to receive(:numbers)
-            .once
-            .with(%i[a b c])
-            .and_return('XXX')
-
           allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
             .once
             .with(:datetime)
@@ -162,13 +125,13 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
             .once
             .with(:sendsms,
                   msg: 'given message',
-                  numbers: 'XXX',
+                  numbers: '11988889991,11988889992,11988889993',
                   jobdate: 'date',
                   jobtime: 'time',
                   url_callback: 'something')
             .and_return({})
 
-          client.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
+          client.deliver_at 'given message', :datetime, '11988889991', '11988889992', '11988889993', url_callback: 'something'
         end
       end
 

@@ -20,12 +20,7 @@ describe LocaSMS::Helpers::DateTimeHelper do # rubocop:disable RSpec/FilePath
 
   describe '.split' do
     it 'breaks a date into date and time' do
-      allow(helper).to receive(:parse)
-        .once
-        .with(:datetime)
-        .and_return(Time.parse('1977-03-14 14:12:00'))
-
-      expect(helper.split(:datetime)).to eq(%w[14/03/1977 14:12])
+      expect(helper.split('1977-03-14 14:12:00')).to eq(%w[14/03/1977 14:12])
     end
   end
 end

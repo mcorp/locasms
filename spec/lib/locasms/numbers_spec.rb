@@ -3,7 +3,9 @@
 require 'spec_helper'
 
 describe LocaSMS::Numbers do # rubocop:disable RSpec/FilePath
-  subject(:number_sanitizer) { described_class.new }
+  subject(:number_sanitizer) { described_class.new numbers }
+
+  let(:numbers) { '1188889999' }
 
   describe '#normalize' do
     it do
@@ -54,46 +56,37 @@ describe LocaSMS::Numbers do # rubocop:disable RSpec/FilePath
 
   describe '#evaluate' do
     it 'separates numbers in good and bad' do
-      allow(number_sanitizer).to receive(:normalize)
-        .once
-        .with([:numbers])
-        .and_return(%i[good bad])
-      allow(number_sanitizer).to receive(:valid_number?)
-        .once
-        .with(:good)
-        .and_return(true)
-      allow(number_sanitizer).to receive(:valid_number?)
-        .once
-        .with(:bad)
-        .and_return(false)
-      expect(number_sanitizer.evaluate(:numbers)).to(
-        eq(good: [:good], bad: [:bad])
-      )
+      expect(number_sanitizer.evaluate('11988889999', 'abc')).to eq(good: ['11988889999'], bad: ['abc'])
     end
   end
 
   describe '#bad?' do
-    it 'when bad is empty' do
-      allow(number_sanitizer).to receive(:bad).once.and_return([])
-      expect(number_sanitizer).not_to be_bad
+    subject(:number_sanitizer) { described_class.new numbers }
+
+    context 'when bad is empty' do
+      let(:numbers) { '11988889999' }
+
+      it { expect(number_sanitizer).not_to be_bad }
     end
 
-    it 'when bad has items' do
-      allow(number_sanitizer).to receive(:bad).once.and_return([1])
-      expect(number_sanitizer).to be_bad
+    context 'when bad has items' do
+      let(:numbers) { 'ABC' }
+
+      it { expect(number_sanitizer).to be_bad }
     end
   end
 
   describe '#to_s' do
-    it 'returns and empty string' do
-      expect(number_sanitizer.to_s).to eq('')
+    context 'when is empty returns empty string' do
+      let(:numbers) { '' }
+
+      it { expect(number_sanitizer.to_s).to eq('') }
     end
 
-    it 'returns all good numbers in a string comma separated' do
-      allow(number_sanitizer).to receive(:good)
-        .once
-        .and_return([1, 2, 3, 4])
-      expect(number_sanitizer.to_s).to eq('1,2,3,4')
+    context 'when all good numbers returns in a string comma separated' do
+      let(:numbers) { %w[11988889991 11988889992 11988889993] }
+
+      it { expect(number_sanitizer.to_s).to eq('11988889991,11988889992,11988889993') }
     end
   end
 end

@@ -97,7 +97,7 @@ module LocaSMS
           }
         end
       rescue StandardError
-        raise LocaSMS::Exception, 'Invalid delivery response data'
+        raise LocaSMS::Exception.new(message: 'Invalid delivery response data')
       end
     end
 
@@ -133,7 +133,7 @@ module LocaSMS
       numbers = Numbers.new mobiles
       return numbers.to_s unless numbers.bad?
 
-      raise Exception("Bad numbers were given: #{numbers.bad.join(',')}")
+      raise LocaSMS::Exception.new(message: "Bad numbers were given: #{numbers.bad.join(',')}")
     end
   end
 end
