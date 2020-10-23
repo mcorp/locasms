@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe LocaSMS::Helpers::DateTimeHelper do
+describe LocaSMS::Helpers::DateTimeHelper do # rubocop:disable RSpec/FilePath
   subject(:helper) { described_class }
 
   describe '#parse' do

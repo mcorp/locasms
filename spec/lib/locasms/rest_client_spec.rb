@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe LocaSMS::RestClient do
+describe LocaSMS::RestClient do # rubocop:disable RSpec/FilePath
   subject(:rest_client) { described_class.new(action, params) }
 
   let(:action) { :url }

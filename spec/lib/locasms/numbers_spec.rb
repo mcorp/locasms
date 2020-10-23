@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe LocaSMS::Numbers do
+describe LocaSMS::Numbers do # rubocop:disable RSpec/FilePath
   subject(:number_sanitizer) { described_class.new }
 
   describe '.initialize' do
