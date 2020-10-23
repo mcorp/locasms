@@ -5,7 +5,7 @@ require 'spec_helper'
 describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
   subject(:client) { described_class.new :login, :password, rest_client: rest_client, callback: nil }
 
-  let(:rest_client) { double :rest_client }
+  let(:rest_client) { instance_double 'RestClient' }
 
   describe '::ENDPOINT' do
     let(:domain) { described_class::DOMAIN }
