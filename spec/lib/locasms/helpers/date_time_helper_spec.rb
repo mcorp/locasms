@@ -5,26 +5,6 @@ require 'spec_helper'
 describe LocaSMS::Helpers::DateTimeHelper do # rubocop:disable RSpec/FilePath
   subject(:helper) { described_class }
 
-  describe '#parse' do
-    it 'calls the class method' do
-      expect(helper).to receive(:parse)
-        .once
-        .with(:value)
-
-      helper.new.parse(:value)
-    end
-  end
-
-  describe '#split' do
-    it 'calls the class method' do
-      expect(helper).to receive(:split)
-        .once
-        .with(:value)
-
-      helper.new.split(:value)
-    end
-  end
-
   describe '.parse' do
     let(:expected) { Time.parse '1977-03-14 14:12:00' }
 
