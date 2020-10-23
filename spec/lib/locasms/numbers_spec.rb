@@ -89,12 +89,12 @@ describe LocaSMS::Numbers do
   describe '#bad?' do
     it 'when bad is empty' do
       allow(number_sanitizer).to receive(:bad).once.and_return([])
-      is_expected.not_to be_bad
+      expect(number_sanitizer).not_to be_bad
     end
 
     it 'when bad has items' do
       allow(number_sanitizer).to receive(:bad).once.and_return([1])
-      is_expected.to be_bad
+      expect(number_sanitizer).to be_bad
     end
   end
 
