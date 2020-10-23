@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe LocaSMS::Client do
-  subject { described_class.new :login, :password, rest_client: rest_client, callback: nil }
+  subject(:client) { described_class.new :login, :password, rest_client: rest_client, callback: nil }
 
   let(:rest_client) { double :rest_client }
 
@@ -12,29 +12,29 @@ describe LocaSMS::Client do
 
     context 'when default' do
       it 'returns the default URL' do
-        endpoint = described_class::ENDPOINT[subject.type]
+        endpoint = described_class::ENDPOINT[client.type]
         expect(endpoint).to eq("http://#{domain}/painel/api.ashx")
       end
     end
 
     context 'when shortcode' do
-      subject { described_class.new :login, :password, type: :shortcode }
+      subject(:client) { described_class.new :login, :password, type: :shortcode }
 
       it 'returns the short code URL' do
-        endpoint = described_class::ENDPOINT[subject.type]
+        endpoint = described_class::ENDPOINT[client.type]
         expect(endpoint).to eq("http://#{domain}/shortcode/api.ashx")
       end
     end
   end
 
   describe '.initialize' do
-    it { expect(subject.login).to be(:login) }
-    it { expect(subject.password).to be(:password) }
+    it { expect(client.login).to be(:login) }
+    it { expect(client.password).to be(:password) }
   end
 
   describe '#deliver' do
     it 'sends SMS' do
-      allow(subject).to receive(:numbers)
+      allow(client).to receive(:numbers)
         .once
         .with(%i[a b c])
         .and_return('XXX')
@@ -44,14 +44,14 @@ describe LocaSMS::Client do
         .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: nil)
         .and_return({})
 
-      subject.deliver 'given message', :a, :b, :c
+      client.deliver 'given message', :a, :b, :c
     end
 
     context 'when receive an error' do
-      let(:wrong_deliver) { -> { subject.deliver('given message', :a, :b, :c) } }
+      let(:wrong_deliver) { -> { client.deliver('given message', :a, :b, :c) } }
 
       before do
-        allow(subject).to receive(:numbers)
+        allow(client).to receive(:numbers)
           .once
           .with(%i[a b c])
           .and_raise(LocaSMS::Exception)
@@ -69,7 +69,7 @@ describe LocaSMS::Client do
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          allow(subject).to receive(:numbers)
+          allow(client).to receive(:numbers)
             .once
             .with(%i[a b c])
             .and_return('XXX')
@@ -79,7 +79,7 @@ describe LocaSMS::Client do
             .with(:sendsms, msg: 'given message', numbers: 'XXX', url_callback: 'something')
             .and_return({})
 
-          subject.deliver 'given message', :a, :b, :c, url_callback: 'something'
+          client.deliver 'given message', :a, :b, :c, url_callback: 'something'
         end
       end
 
@@ -103,7 +103,7 @@ describe LocaSMS::Client do
 
   describe '#deliver_at' do
     it 'sends SMS' do
-      allow(subject).to receive(:numbers)
+      allow(client).to receive(:numbers)
         .once
         .with(%i[a b c])
         .and_return('XXX')
@@ -118,14 +118,14 @@ describe LocaSMS::Client do
         .with(:sendsms, msg: 'given message', numbers: 'XXX', jobdate: 'date', jobtime: 'time', url_callback: nil)
         .and_return({})
 
-      subject.deliver_at 'given message', :datetime, :a, :b, :c
+      client.deliver_at 'given message', :datetime, :a, :b, :c
     end
 
     context 'when receive an error' do
-      let(:wrong_deliver_at) { -> { subject.deliver_at('given message', :datetime, :a, :b, :c) } }
+      let(:wrong_deliver_at) { -> { client.deliver_at('given message', :datetime, :a, :b, :c) } }
 
       before do
-        allow(subject).to receive(:numbers)
+        allow(client).to receive(:numbers)
           .once
           .with(%i[a b c])
           .and_raise(LocaSMS::Exception)
@@ -148,7 +148,7 @@ describe LocaSMS::Client do
     context 'with callback option' do
       context 'when callback given as arg to #deliver' do
         it 'uses specific callback' do
-          allow(subject).to receive(:numbers)
+          allow(client).to receive(:numbers)
             .once
             .with(%i[a b c])
             .and_return('XXX')
@@ -168,7 +168,7 @@ describe LocaSMS::Client do
                   url_callback: 'something')
             .and_return({})
 
-          subject.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
+          client.deliver_at 'given message', :datetime, :a, :b, :c, url_callback: 'something'
         end
       end
 
@@ -207,7 +207,7 @@ describe LocaSMS::Client do
         .with(:getbalance)
         .and_return({})
 
-      subject.balance
+      client.balance
     end
   end
 
@@ -224,7 +224,7 @@ describe LocaSMS::Client do
         .with(rest_method, id: '12345')
         .and_return({})
 
-      subject.send method, '12345'
+      client.send method, '12345'
     end
 
     it { check_for :campaign_status  }
