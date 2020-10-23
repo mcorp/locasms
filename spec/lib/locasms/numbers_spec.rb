@@ -5,20 +5,6 @@ require 'spec_helper'
 describe LocaSMS::Numbers do # rubocop:disable RSpec/FilePath
   subject(:number_sanitizer) { described_class.new }
 
-  describe '.initialize' do
-    subject do
-      expect_any_instance_of(described_class)
-        .to receive(:evaluate)
-        .once
-        .with([:numbers])
-        .and_return(good: [1, 3], bad: [2, 4])
-      described_class.new :numbers
-    end
-
-    xit { expect(number_sanitizer.good).to eq([1, 3]) }
-    xit { expect(number_sanitizer.bad).to eq([2, 4]) }
-  end
-
   describe '#normalize' do
     it do
       expect(number_sanitizer.normalize('+55 (11) 8888-9999')).to(
