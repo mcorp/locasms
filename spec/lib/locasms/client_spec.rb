@@ -48,7 +48,7 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
       it { expect(wrong_deliver).to raise_error(LocaSMS::Exception) }
 
       it 'does not send SMS' do
-        expect(rest_client).to receive(:get).never
+        expect(rest_client).to_not receive(:get)
 
         wrong_deliver
       end
