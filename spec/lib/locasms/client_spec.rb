@@ -54,28 +54,26 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
       end
     end
 
-    context 'with callback option' do
-      context 'when callback given as arg to #deliver' do
-        it 'uses specific callback' do
-          expect(rest_client).to receive(:get)
-            .once
-            .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'something')
-            .and_return({})
-
-          client.deliver 'given message', '11988889991', '11988889992', '11988889993', url_callback: 'something'
-        end
-      end
-
-      it 'uses default callback' do
-        client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
-
+    context 'when callback given as arg to #deliver' do
+      it 'uses specific callback' do
         expect(rest_client).to receive(:get)
           .once
-          .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'default')
+          .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'something')
           .and_return({})
 
-        client.deliver 'given message', '11988889991', '11988889992', '11988889993'
+        client.deliver 'given message', '11988889991', '11988889992', '11988889993', url_callback: 'something'
       end
+    end
+
+    it 'uses default callback' do
+      client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
+
+      expect(rest_client).to receive(:get)
+        .once
+        .with(:sendsms, msg: 'given message', numbers: '11988889991,11988889992,11988889993', url_callback: 'default')
+        .and_return({})
+
+      client.deliver 'given message', '11988889991', '11988889992', '11988889993'
     end
   end
 
@@ -114,25 +112,23 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
     end
 
     context 'with callback option' do
-      context 'when callback given as arg to #deliver' do
-        it 'uses specific callback' do
-          allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
-            .once
-            .with(:datetime)
-            .and_return(%w[date time])
+      it 'when callback given as arg to #deliver' do
+        allow(LocaSMS::Helpers::DateTimeHelper).to receive(:split)
+          .once
+          .with(:datetime)
+          .and_return(%w[date time])
 
-          expect(rest_client).to receive(:get)
-            .once
-            .with(:sendsms,
-                  msg: 'given message',
-                  numbers: '11988889991,11988889992,11988889993',
-                  jobdate: 'date',
-                  jobtime: 'time',
-                  url_callback: 'something')
-            .and_return({})
+        expect(rest_client).to receive(:get)
+          .once
+          .with(:sendsms,
+                msg: 'given message',
+                numbers: '11988889991,11988889992,11988889993',
+                jobdate: 'date',
+                jobtime: 'time',
+                url_callback: 'something')
+          .and_return({})
 
-          client.deliver_at 'given message', :datetime, '11988889991', '11988889992', '11988889993', url_callback: 'something'
-        end
+        client.deliver_at 'given message', :datetime, '11988889991', '11988889992', '11988889993', url_callback: 'something'
       end
 
       it 'uses default callback' do
