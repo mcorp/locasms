@@ -28,9 +28,9 @@ describe LocaSMS::RestClient do # rubocop:disable RSpec/FilePath
         .to receive(:get_response)
         .and_return(OpenStruct.new(body: body))
 
-      expect(Net::HTTP).to receive(:get_response)
-
       rest_client.get(action, params)
+
+      expect(Net::HTTP).to have_received(:get_response)
     end
   end
 

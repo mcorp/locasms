@@ -37,12 +37,11 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
 
   describe '#deliver' do
     it 'sends SMS' do
-      expect(rest_client).to receive(:get)
-        .once
-        .with(:sendsms, base_args.merge(url_callback: nil))
-        .and_return({})
+      allow(rest_client).to receive(:get).and_return({})
 
       client.deliver 'given message', '11988889991', '11988889992', '11988889993'
+
+      expect(rest_client).to have_received(:get).once.with(:sendsms, base_args.merge(url_callback: nil))
     end
 
     context 'when receive an error' do
@@ -51,26 +50,32 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
       it { expect(wrong_deliver).to raise_error(LocaSMS::Exception) }
 
       it 'does not send SMS' do
-        expect(rest_client).not_to receive(:get)
+        allow(rest_client).to receive(:get)
 
         wrong_deliver
+
+        expect(rest_client).not_to have_received(:get)
       end
     end
 
     context 'when callback given as arg to #deliver' do
       it 'uses specific callback' do
-        expect(rest_client).to receive(:get).once.with(:sendsms, some_callback_args).and_return({})
+        allow(rest_client).to receive(:get).and_return({})
 
         client.deliver 'given message', '11988889991', '11988889992', '11988889993', url_callback: 'something'
+
+        expect(rest_client).to have_received(:get).once.with(:sendsms, some_callback_args)
       end
     end
 
     it 'uses default callback' do
       client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
-      expect(rest_client).to receive(:get).once.with(:sendsms, default_callback_args).and_return({})
+      allow(rest_client).to receive(:get).and_return({})
 
       client.deliver 'given message', '11988889991', '11988889992', '11988889993'
+
+      expect(rest_client).to have_received(:get).once.with(:sendsms, default_callback_args)
     end
   end
 
@@ -85,9 +90,11 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
     end
 
     it 'sends SMS' do
-      expect(rest_client).to receive(:get).once.with(:sendsms, base_args.merge(url_callback: nil)).and_return({})
+      allow(rest_client).to receive(:get).and_return({})
 
       client.deliver_at 'given message', '2020-10-10 10:10', '11988889991', '11988889992', '11988889993'
+
+      expect(rest_client).to have_received(:get).once.with(:sendsms, base_args.merge(url_callback: nil))
     end
 
     context 'when receive an error' do
@@ -96,37 +103,42 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
       it { expect(wrong_deliver_at).to raise_error(LocaSMS::Exception) }
 
       it 'does not send SMS' do
-        expect(rest_client).not_to receive(:get)
+        allow(rest_client).to receive(:get)
 
         wrong_deliver_at
+
+        expect(rest_client).not_to have_received(:get)
       end
     end
 
     context 'with callback option' do
       it 'when callback given as arg to #deliver' do
-        expect(rest_client).to receive(:get).once.with(:sendsms, some_callback_args).and_return({})
+        allow(rest_client).to receive(:get).and_return({})
 
         client.deliver_at 'given message', '2020-10-10 10:10', '11988889991', '11988889992', '11988889993', url_callback: 'something'
+
+        expect(rest_client).to have_received(:get).once.with(:sendsms, some_callback_args)
       end
 
       it 'uses default callback' do
         client = described_class.new :login, :password, rest_client: rest_client, url_callback: 'default'
 
-        expect(rest_client).to receive(:get).once.with(:sendsms, default_callback_args).and_return({})
+        allow(rest_client).to receive(:get).and_return({})
 
         client.deliver_at 'given message', '2020-10-10 10:10', '11988889991', '11988889992', '11988889993'
+
+        expect(rest_client).to have_received(:get).once.with(:sendsms, default_callback_args)
       end
     end
   end
 
   describe '#balance' do
     it 'checks param assignment' do
-      expect(rest_client).to receive(:get)
-        .once
-        .with(:getbalance)
-        .and_return({})
+      allow(rest_client).to receive(:get).and_return({})
 
       client.balance
+
+      expect(rest_client).to have_received(:get).once.with(:getbalance)
     end
   end
 
@@ -138,12 +150,11 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
         campaign_release: :releasesms
       }[method]
 
-      expect(rest_client).to receive(:get)
-        .once
-        .with(rest_method, id: '12345')
-        .and_return({})
+      allow(rest_client).to receive(:get).and_return({})
 
       client.send method, '12345'
+
+      expect(rest_client).to have_received(:get).once.with(rest_method, id: '12345')
     end
 
     it { check_for :campaign_status  }
