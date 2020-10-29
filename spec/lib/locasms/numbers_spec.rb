@@ -2,106 +2,91 @@
 
 require 'spec_helper'
 
-describe LocaSMS::Numbers do
-  subject { LocaSMS::Numbers.new }
+describe LocaSMS::Numbers do # rubocop:disable RSpec/FilePath
+  subject(:number_sanitizer) { described_class.new numbers }
 
-  describe '.initialize' do
-    subject do
-      expect_any_instance_of(LocaSMS::Numbers)
-        .to receive(:evaluate)
-        .once
-        .with([:numbers])
-        .and_return(good: [1, 3], bad: [2, 4])
-      LocaSMS::Numbers.new :numbers
-    end
-
-    it { expect(subject.good).to eq([1, 3]) }
-    it { expect(subject.bad).to eq([2, 4]) }
-  end
+  let(:numbers) { '1188889999' }
 
   describe '#normalize' do
     it do
-      expect(subject.normalize('+55 (11) 8888-9999')).to(
+      expect(number_sanitizer.normalize('+55 (11) 8888-9999')).to(
         eq(%w[551188889999])
       )
     end
+
     it do
-      expect(subject.normalize('55', %w[11 22])).to(
+      expect(number_sanitizer.normalize('55', %w[11 22])).to(
         eq(%w[55 11 22])
       )
     end
+
     it do
-      expect(subject.normalize(%w[55 ZZ 22])).to(
+      expect(number_sanitizer.normalize(%w[55 ZZ 22])).to(
         eq(%w[55 ZZ 22])
       )
     end
+
     it do
-      expect(subject.normalize('55,44,33', ['ZZ', '22,11'])).to(
+      expect(number_sanitizer.normalize('55,44,33', ['ZZ', '22,11'])).to(
         eq(%w[55 44 33 ZZ 22 11])
       )
     end
+
     it do
-      expect(subject.normalize(55, [11, 22])).to(
+      expect(number_sanitizer.normalize(55, [11, 22])).to(
         eq(%w[55 11 22])
       )
     end
-    it { expect(subject.normalize('Z')).to eq(['Z']) }
-    it { expect(subject.normalize(nil)).to eq([]) }
+
+    it { expect(number_sanitizer.normalize('Z')).to eq(['Z']) }
+    it { expect(number_sanitizer.normalize(nil)).to eq([]) }
   end
 
   describe '#valid_number?' do
-    it { expect(subject.valid_number?('+55 (11) 8888-9999')).to be_falsey }
-    it { expect(subject.valid_number?('88889999')).to be_falsey }
-    it { expect(subject.valid_number?('988889999')).to be_falsey }
-    it { expect(subject.valid_number?('ABC')).to be_falsey }
-    it { expect(subject.valid_number?('')).to be_falsey }
-    it { expect(subject.valid_number?(nil)).to be_falsey }
+    it { is_expected.not_to be_valid_number('+55 (11) 8888-9999') }
+    it { is_expected.not_to be_valid_number('88889999') }
+    it { is_expected.not_to be_valid_number('988889999') }
+    it { is_expected.not_to be_valid_number('ABC') }
+    it { is_expected.not_to be_valid_number('') }
+    it { is_expected.not_to be_valid_number(nil) }
 
-    it { expect(subject.valid_number?('1188889999')).to be_truthy }
-    it { expect(subject.valid_number?('11988889999')).to be_truthy }
+    it { is_expected.to be_valid_number('1188889999') }
+    it { is_expected.to be_valid_number('11988889999') }
   end
 
   describe '#evaluate' do
-    it 'Should separate numbers in good and bad' do
-      expect(subject).to receive(:normalize)
-        .once
-        .with([:numbers])
-        .and_return(%i[good bad])
-      expect(subject).to receive(:valid_number?)
-        .once
-        .with(:good)
-        .and_return(true)
-      expect(subject).to receive(:valid_number?)
-        .once
-        .with(:bad)
-        .and_return(false)
-      expect(subject.evaluate(:numbers)).to(
-        eq(good: [:good], bad: [:bad])
-      )
+    it 'separates numbers in good and bad' do
+      expect(number_sanitizer.evaluate('11988889999', 'abc')).to eq(good: ['11988889999'], bad: ['abc'])
     end
   end
 
   describe '#bad?' do
-    it do
-      expect(subject).to receive(:bad).once.and_return([])
-      expect(subject.bad?).to be_falsey
+    subject(:number_sanitizer) { described_class.new numbers }
+
+    context 'when bad is empty' do
+      let(:numbers) { '11988889999' }
+
+      it { expect(number_sanitizer).not_to be_bad }
     end
-    it do
-      expect(subject).to receive(:bad).once.and_return([1])
-      expect(subject.bad?).to be_truthy
+
+    context 'when bad has items' do
+      let(:numbers) { 'ABC' }
+
+      it { expect(number_sanitizer).to be_bad }
     end
   end
 
   describe '#to_s' do
-    it 'Should return and empty string' do
-      expect(subject.to_s).to eq('')
+    context 'when is empty returns empty string' do
+      let(:numbers) { '' }
+
+      it { expect(number_sanitizer.to_s).to eq('') }
     end
 
-    it 'Should return all good numbers in a string comma separated' do
-      expect(subject).to receive(:good)
-        .once
-        .and_return([1, 2, 3, 4])
-      expect(subject.to_s).to eq('1,2,3,4')
+    context 'when all good numbers returns in a string comma separated' do
+      let(:numbers) { %w[11988889991 11988889992 11988889993] }
+
+      it { expect(number_sanitizer.to_s).to eq('11988889991,11988889992,11988889993') }
     end
   end
 end
