@@ -36,7 +36,7 @@ module LocaSMS
       #     # => ['14/03/1977', '14:12']
       #
       def self.split(date)
-        parse(date).strftime('%d/%m/%Y %H:%M').split(' ')
+        parse(date).strftime('%d/%m/%Y %H:%M').split
       end
     end
   end
