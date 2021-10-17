@@ -75,7 +75,7 @@ module LocaSMS
     # @raise [LocaSMS::InvalidOperation] when asked for an invalid operation
     # @raise [LocaSMS::InvalidLogin] when the given credentials are invalid
     def parse_response(action, response)
-      raise InvalidOperation.new(action: action) if response =~ /^0:OPERACAO INVALIDA$/i
+      raise InvalidOperation.new(action: action) if response.match?(/^0:OPERACAO INVALIDA$/i)
 
       j = begin
         MultiJson.load(response)
@@ -85,7 +85,7 @@ module LocaSMS
 
       return j if (j['status'] == 1) || (action == :getstatus)
 
-      raise InvalidLogin.new(action: action) if j['msg'] =~ /^falha ao realizar login$/i
+      raise InvalidLogin.new(action: action) if j['msg'].match?(/^falha ao realizar login$/i)
 
       raise LocaSMS::Exception.new(message: j['msg'], raw: response, action: action)
     end
