@@ -41,5 +41,6 @@ Gem::Specification.new do |spec|
   # for code quality
   spec.add_development_dependency 'rubocop', '~> 1.22'
   spec.add_development_dependency 'rubocop-performance', '~> 1.11'
+  spec.add_development_dependency 'rubocop-rake', '~> 0.6'
   spec.add_development_dependency 'rubocop-rspec', '~> 2.5'
 end
