@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'timecop',   '~> 0.9'
 
   # for documentation
-  spec.add_development_dependency 'redcarpet', '~> 3.5'
   spec.add_development_dependency 'yard',      '~> 0.9'
 
   # for code coverage
