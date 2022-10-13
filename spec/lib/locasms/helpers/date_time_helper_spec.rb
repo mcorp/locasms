@@ -6,16 +6,33 @@ describe LocaSMS::Helpers::DateTimeHelper do # rubocop:disable RSpec/FilePath
   subject(:helper) { described_class }
 
   describe '.parse' do
+    subject { described_class.parse(value) }
+
     let(:expected) { Time.parse '1977-03-14 14:12:00' }
 
-    def try_for(value)
-      helper.parse(value) == expected
+    context 'when is a date time' do
+      let(:value) { DateTime.parse '1977-03-14 14:12:00' }
+
+      it { is_expected.to eq expected }
     end
 
-    it { try_for DateTime.parse('1977-03-14 14:12:00') }
-    it { try_for Time.parse('1977-03-14 14:12:00') }
-    it { try_for '1977-03-14 14:12:00' }
-    it { try_for 227_207_520 }
+    context 'when is a time' do
+      let(:value) { Time.parse '1977-03-14 14:12:00' }
+
+      it { is_expected.to eq expected }
+    end
+
+    context 'when is a string' do
+      let(:value) { '1977-03-14 14:12:00' }
+
+      it { is_expected.to eq expected }
+    end
+
+    context 'when is a number' do
+      let(:value) { 227_196_720 }
+
+      it { is_expected.to eq expected }
+    end
   end
 
   describe '.split' do

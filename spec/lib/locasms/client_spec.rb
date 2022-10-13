@@ -143,23 +143,25 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
   end
 
   context 'when receive all campaign based methods' do
-    def check_for(method)
-      rest_method = {
-        campaign_status: :getstatus,
-        campaign_hold: :holdsms,
-        campaign_release: :releasesms
-      }[method]
+    before { allow(rest_client).to receive(:get).and_return({}) }
 
-      allow(rest_client).to receive(:get).and_return({})
+    it '#campaign_status' do
+      client.campaign_status '12345'
 
-      client.send method, '12345'
-
-      expect(rest_client).to have_received(:get).once.with(rest_method, id: '12345')
+      expect(rest_client).to have_received(:get).once.with(:getstatus, id: '12345')
     end
 
-    it { check_for :campaign_status  }
-    it { check_for :campaign_hold    }
-    it { check_for :campaign_release }
+    it '#campaign_hold' do
+      client.campaign_hold '12345'
+
+      expect(rest_client).to have_received(:get).once.with(:holdsms, id: '12345')
+    end
+
+    it '#campaign_release' do
+      client.campaign_release '12345'
+
+      expect(rest_client).to have_received(:get).once.with(:releasesms, id: '12345')
+    end
 
     it 'has tests to cover campaign_status csv result'
   end
