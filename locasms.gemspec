@@ -38,8 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.18'
 
   # for code quality
-  spec.add_development_dependency 'rubocop', '~> 1.22'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.11'
+  spec.add_development_dependency 'rubocop', '~> 1.36'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.15'
   spec.add_development_dependency 'rubocop-rake', '~> 0.6'
-  spec.add_development_dependency 'rubocop-rspec', '~> 2.5'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.13'
 end
