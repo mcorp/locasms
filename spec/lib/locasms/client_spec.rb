@@ -5,7 +5,7 @@ require 'spec_helper'
 describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
   subject(:client) { described_class.new :login, :password, rest_client: rest_client, callback: nil }
 
-  let(:rest_client) { instance_double 'RestClient' }
+  let(:rest_client) { instance_double LocaSMS::RestClient }
   let(:base_args) { { msg: 'given message', numbers: '11988889991,11988889992,11988889993' } }
   let(:default_callback_args) { base_args.merge(url_callback: 'default') }
   let(:some_callback_args) { base_args.merge(url_callback: 'something') }
