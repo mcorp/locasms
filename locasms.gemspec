@@ -14,6 +14,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Cliente para disparo de SMS, regular e Short Code, através da LocaSMS/SMS Plataforma'
   spec.homepage      = 'https://github.com/mcorp/locasms'
   spec.license       = 'MIT'
+  spec.metadata      = { 'rubygems_mfa_required' => 'true' }
 
   spec.files         = `git ls-files`.split($INPUT_RECORD_SEPARATOR)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
