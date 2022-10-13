@@ -26,7 +26,7 @@ describe LocaSMS::RestClient do # rubocop:disable RSpec/FilePath
     it 'performs get request to url with parameters' do
       allow(Net::HTTP)
         .to receive(:get_response)
-        .and_return(OpenStruct.new(body: body))
+        .and_return(instance_double(Net::HTTPOK, body: body))
 
       rest_client.get(action, params)
 
