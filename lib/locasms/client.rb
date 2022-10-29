@@ -73,7 +73,9 @@ module LocaSMS
     def campaign_status(id)
       response = rest.get(:getstatus, id: id)
       begin
-        CSV.new(response['data'] || '', col_sep: ';', quote_char: '"').map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
+        CSV.new(
+          response['data'] || '', col_sep: ';', quote_char: '"'
+        ).map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
           status = case status
                    when /aguardando envio/i
                      waiting
@@ -86,14 +88,9 @@ module LocaSMS
                    end
 
           {
-            campaign_id: id,
-            delivery_id: delivery_id,
-            enqueue_time: enqueue_time,
-            delivery_time: delivery_time,
-            status: status,
-            carrier: carrier,
-            mobile_number: mobile_number,
-            message: message
+            campaign_id: id, delivery_id: delivery_id, enqueue_time: enqueue_time,
+            delivery_time: delivery_time, status: status, carrier: carrier,
+            mobile_number: mobile_number, message: message
           }
         end
       rescue StandardError
