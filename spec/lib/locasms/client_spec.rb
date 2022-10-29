@@ -115,7 +115,8 @@ describe LocaSMS::Client do # rubocop:disable RSpec/FilePath
       it 'when callback given as arg to #deliver' do
         allow(rest_client).to receive(:get).and_return({})
 
-        client.deliver_at 'given message', '2020-10-10 10:10', '11988889991', '11988889992', '11988889993', url_callback: 'something'
+        client.deliver_at 'given message', '2020-10-10 10:10', '11988889991', '11988889992', '11988889993',
+                          url_callback: 'something'
 
         expect(rest_client).to have_received(:get).once.with(:sendsms, some_callback_args)
       end
