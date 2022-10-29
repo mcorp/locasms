@@ -75,7 +75,7 @@ module LocaSMS
       begin
         CSV.new(
           response['data'] || '', col_sep: ';', quote_char: '"'
-        ).map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message|
+        ).map do |delivery_id, _, enqueue_time, _, delivery_time, _, status, _, _, carrier, mobile_number, _, message| # rubocop:disable Metrics/ParameterLists
           status = case status
                    when /aguardando envio/i
                      waiting
